@@ -48,7 +48,11 @@ export default function ExplorerModal({
             padding: "24px 32px",
           }}
         >
-          <CareerRoomDetail room={selectedRoom} onBack={onCloseRoom} />
+          <CareerRoomDetail
+            key={selectedRoom.title}
+            room={selectedRoom}
+            onBack={onCloseRoom}
+          />
         </div>
       </div>
     )

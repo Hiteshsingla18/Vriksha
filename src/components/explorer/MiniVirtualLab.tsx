@@ -16,10 +16,17 @@ function LabFrame({
   succeeded: boolean
   children: React.ReactNode
 }) {
+  const [isOpen, setIsOpen] = useState(true)
+
   return (
-    <article className="virtual-lab-card">
-      <div className="lab-card-header">
-        <div>
+    <article className="virtual-lab-card collapsible-card">
+      <button
+        type="button"
+        className="card-collapse-header"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
+        <div className="card-header-left">
           <div className="card-overline">
             <span className="overline-icon">⌘</span> MINI VIRTUAL LAB{" "}
             <span className="lab-level">HANDS-ON SIMULATION</span>
@@ -27,15 +34,29 @@ function LabFrame({
           <h2>{lab.title}</h2>
           <p className="card-subtitle">{lab.description}</p>
         </div>
-        <span className={`lab-status ${succeeded ? "lab-status-done" : ""}`}>
-          <i />
-          {succeeded ? "PASSED" : "IN PROGRESS"}
-        </span>
-      </div>
-      {children}
-      <div className="lab-safety-note">
-        <span>✳</span> Real-world Data Science simulation based on 15,800+ job dataset competencies.
-      </div>
+        <div className="flex items-center gap-3">
+          <span className={`lab-status ${succeeded ? "lab-status-done" : ""}`}>
+            <i />
+            {succeeded ? "PASSED" : "IN PROGRESS"}
+          </span>
+          <div className="card-collapse-badge">
+            <span className="collapse-status-text">
+              {isOpen ? "Hide challenge" : "View challenge"}
+            </span>
+            <span className={`collapse-chevron ${isOpen ? "rotated" : ""}`}>
+              ▾
+            </span>
+          </div>
+        </div>
+      </button>
+      {isOpen && (
+        <div className="card-collapse-content animate-fadeIn">
+          {children}
+          <div className="lab-safety-note">
+            <span>✳</span> Real-world Data Science simulation based on 15,800+ job dataset competencies.
+          </div>
+        </div>
+      )}
     </article>
   )
 }
