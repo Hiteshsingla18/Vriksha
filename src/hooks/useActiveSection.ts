@@ -3,8 +3,8 @@ import { PortalSection } from "../types"
 
 export function useActiveSection(
   sections: PortalSection[],
-  onViewChange: (view: number) => void,
-  scrollTargetRef: { current: string | null }
+  onViewChange?: (view: number) => void,
+  scrollTargetRef?: { current: string | null }
 ) {
   useEffect(() => {
     const elementList = sections
@@ -15,7 +15,7 @@ export function useActiveSection(
     const updateActiveSection = () => {
       window.cancelAnimationFrame(frame)
       frame = window.requestAnimationFrame(() => {
-        if (scrollTargetRef.current) return
+        if (scrollTargetRef?.current) return
         const viewingLine = Math.max(150, window.innerHeight * 0.3)
         const sectionInView =
           elementList.find((el) => {
@@ -36,7 +36,7 @@ export function useActiveSection(
         if (!sectionInView) return
         const matched = sections.find((item) => item.id === sectionInView.id)
         if (matched) {
-          onViewChange(matched.view)
+          onViewChange?.(matched.view)
         }
       })
     }
