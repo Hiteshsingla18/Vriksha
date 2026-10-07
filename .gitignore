@@ -1,9 +1,27 @@
-node_modules
+node_modules/
 .DS_Store
-dist
+dist/
 dist-ssr
-*.local
+build/
+.cache/
+.env*
+.vite/
+vite.config.*.timestamp-*
+*.tsbuildinfo
+*-debug.log*
+logs/
+*.log
+.claude-replay.*
+.tmp-*
+.figma/
+
+# Python
 __pycache__/
 *.pyc
 .env
 .venv
+
+# Platform-managed
+/.plugins/
+/.opencode-skills/
+*.local
