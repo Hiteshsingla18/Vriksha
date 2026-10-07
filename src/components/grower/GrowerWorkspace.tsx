@@ -9,7 +9,6 @@ import MarketRecommendations from "./MarketRecommendations"
 import MentorSection from "./MentorSection"
 import SkillHalfLife from "./SkillHalfLife"
 import { MarketRadarFlightDeck } from "./MarketRadarFlightDeck"
-import LivingSkillTree from "../common/LivingSkillTree"
 
 interface GrowerWorkspaceProps {
   fromBuilder?: boolean
@@ -81,19 +80,7 @@ export default function GrowerWorkspace({
 
       {/* 02. Skill Half-Life */}
       <SkillHalfLife />
-
       {/* 03. Adjacent Leap */}
-      <div className="px-6 lg:px-12 mt-12">
-        <LivingSkillTree
-          context="grower"
-          targetRole="Machine Learning Engineer"
-          currentSkills={["Python", "SQL", "APIs", "System Design"]}
-          experienceYears={5.0}
-          title="Adjacent Role Leap"
-          subtitle="How your current skills map to a Machine Learning Engineer role."
-          cardLabel="03 · Adjacent Leap Blueprint"
-        />
-      </div>
       <AdjacentLeap onBuilderHandoff={onBuilderHandoff} />
 
       {/* 04. Compensation Trajectory */}
