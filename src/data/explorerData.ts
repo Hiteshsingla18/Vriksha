@@ -393,3 +393,220 @@ export const explorerFields: ExplorerField[] = [
     related: ["AI & Machine Learning", "Big Data & Distributed Systems", "Data Software & Cloud"],
   },
 ]
+
+export interface FamilyBriefRole {
+  id: string
+  roleTitle: string
+  category: string
+  tagline: string
+  icon: string
+  plainEnglishSummary: string
+  targetAudienceHeadline: string
+  skillsMatch: string
+  typicalWork: string
+  growthOutlook: string
+  avgSalaryRange: string
+  learningPath: string
+  alternativePaths: string
+  familyTalkingPoints: string[]
+  commonFamilyQuestions: { question: string; answer: string }[]
+}
+
+export const familyBriefRoles: FamilyBriefRole[] = [
+  {
+    id: "data-analytics-bi",
+    roleTitle: "Data Analytics & Business Intelligence",
+    category: "Analytics & Strategy",
+    tagline: "Turns company numbers into crystal-clear executive decisions.",
+    icon: "⌕",
+    plainEnglishSummary:
+      "Helps organizations navigate business challenges by inspecting transaction data, diagnosing performance dips, and creating live visual dashboards that leadership trusts.",
+    targetAudienceHeadline:
+      "The digital navigator — every major executive decision runs through their numbers.",
+    skillsMatch:
+      "Structured problem-solving, visual clarity, curiosity with customer habits, and concise verbal communication.",
+    typicalWork:
+      "Reconcile daily metrics, write SQL queries to clean datasets, build interactive charts in Tableau or Power BI, and answer questions like 'Why did checkout completion drop 8% this week?'",
+    growthOutlook:
+      "High hiring demand across Indian financial services, retail, e-commerce, and healthcare with strong career resilience.",
+    avgSalaryRange: "₹6.5 – 10.5 LPA (Entry) → ₹16.0 – 24.0 LPA (Lead / Manager)",
+    learningPath:
+      "SQL Database Queries → Tableau & Power BI Storytelling → Metric Catalogs & dbt Governance.",
+    alternativePaths:
+      "Product Operations Analyst, Decision Scientist, Revenue Operations Manager.",
+    familyTalkingPoints: [
+      "Not solitary coding: Over 40% of their workday is spent interacting directly with business managers, product leads, and operations directors.",
+      "High stability: Every modern company—from banks to hospitals—needs skilled professionals who can interpret data and explain the 'why'.",
+      "Clear advancement: Clear progression from reporting analyst to analytics lead and director of decision science.",
+    ],
+    commonFamilyQuestions: [
+      {
+        question: "Is this job vulnerable to AI automation?",
+        answer:
+          "No. While AI can write simple queries, human judgment is essential to define what metrics actually mean, audit data for flaws, and explain subtle caveats to stakeholders.",
+      },
+      {
+        question: "Do they need a pure computer science engineering degree?",
+        answer:
+          "Not mandatory. Many top analysts come from math, statistics, economics, commerce, or general engineering backgrounds by demonstrating strong SQL and business sense.",
+      },
+    ],
+  },
+  {
+    id: "machine-learning-engineering",
+    roleTitle: "Machine Learning (ML) Engineer",
+    category: "AI & Software Engineering",
+    tagline: "Builds intelligent software that learns from patterns and predicts outcomes.",
+    icon: "✧",
+    plainEnglishSummary:
+      "Designs and deploys automated artificial intelligence systems that forecast customer demand, detect fraudulent transactions, and recommend relevant items inside software applications.",
+    targetAudienceHeadline:
+      "Building the automated predictive brains inside modern software apps.",
+    skillsMatch:
+      "Mathematical intuition, Python programming, disciplined experiment tracking, and software reliability.",
+    typicalWork:
+      "Clean training data, train predictive models, test precision against recall, detect performance drift, and deploy models behind robust application programming interfaces (APIs).",
+    growthOutlook:
+      "Among the highest-velocity hiring categories across tech product companies, fintech startups, and global capability centers in India.",
+    avgSalaryRange: "₹9.2 – 14.5 LPA (Entry) → ₹24.0 – 38.0 LPA (Senior / Staff)",
+    learningPath:
+      "Python & Data Structures → Applied Scikit-Learn & PyTorch → Real-Time APIs & MLOps Infrastructure.",
+    alternativePaths:
+      "Backend Systems Engineer, Cloud Data Engineer, Applied AI Researcher.",
+    familyTalkingPoints: [
+      "Core technology pillar: Virtually every tech platform now builds machine learning into its core user experience.",
+      "Top-tier compensation: Ranks in the top compensation percentile across Indian tech hubs (Bengaluru, Hyderabad, Pune).",
+      "Transferable engineering foundation: High engineering rigor ensures seamless pivots across software, cloud, or AI specializations.",
+    ],
+    commonFamilyQuestions: [
+      {
+        question: "Is a PhD or advanced academic doctorate required?",
+        answer:
+          "Not for ML Engineers! Production ML engineering prioritizes writing robust code, building reliable data pipelines, and deployment over theoretical research papers.",
+      },
+      {
+        question: "What companies hire machine learning engineers?",
+        answer:
+          "Top product firms (Flipkart, Amazon, Swiggy), fintech leaders (PhonePe, Razorpay), global tech capability centers, and international AI labs.",
+      },
+    ],
+  },
+  {
+    id: "big-data-engineering",
+    roleTitle: "Big Data & Distributed Systems",
+    category: "Core Infrastructure",
+    tagline: "Builds the high-speed data pipelines that move billions of records safely.",
+    icon: "⌘",
+    plainEnglishSummary:
+      "Constructs the large-scale digital architecture and streaming highways that move, validate, and store massive streams of information every second without dropping a single event.",
+    targetAudienceHeadline:
+      "The civil engineers of high-scale enterprise digital technology.",
+    skillsMatch:
+      "Systems architecture, cloud infrastructure, patience with distributed networks, and performance optimization.",
+    typicalWork:
+      "Design database partitions, write Apache Spark batch pipelines, recover Kafka event streams from network drops, and optimize cloud infrastructure compute costs.",
+    growthOutlook:
+      "Extremely stable enterprise foundation. Telecommunications, banking, and cloud platforms invest heavily in permanent data engineering teams.",
+    avgSalaryRange: "₹8.5 – 13.0 LPA (Entry) → ₹22.0 – 35.0 LPA (Lead Architect)",
+    learningPath:
+      "SQL & Python Fundamentals → Distributed Systems (PySpark, Kafka) → Cloud Architecture (AWS, Snowflake, GCP).",
+    alternativePaths:
+      "Cloud Infrastructure Architect, Database Administrator, Analytics Engineer.",
+    familyTalkingPoints: [
+      "Indispensable foundation: Without data engineers, no dashboard, business report, or machine learning model can ever run.",
+      "Exceptional job security: Core data pipelines are complex enterprise infrastructure that companies preserve through market fluctuations.",
+      "Global mobility: Distributed data computing skills are standardized globally, making cross-border opportunities readily accessible.",
+    ],
+    commonFamilyQuestions: [
+      {
+        question: "Is this role high-stress or late-night?",
+        answer:
+          "Modern enterprise teams use automated testing, dead-letter queues, and cloud alerts, making pipeline operations predictable and manageable during normal hours.",
+      },
+      {
+        question: "How is it different from basic web development?",
+        answer:
+          "Big data engineers focus on data volume, throughput speed, and clustered servers rather than visual user interface screens.",
+      },
+    ],
+  },
+  {
+    id: "ai-deep-learning",
+    roleTitle: "AI & Deep Learning Specialist",
+    category: "Frontier AI & Neural Nets",
+    tagline: "Teaches neural networks to understand language, vision, and reasoning.",
+    icon: "⌬",
+    plainEnglishSummary:
+      "Works on frontier artificial intelligence models that can read documents, understand human voice and conversation, generate images, and assist knowledge workers with specialized tasks.",
+    targetAudienceHeadline:
+      "Working at the frontier of generative AI, neural networks, and modern intelligent assistants.",
+    skillsMatch:
+      "Analytical depth, linear algebra fundamentals, creative prompt and fine-tuning evaluation, and safety consciousness.",
+    typicalWork:
+      "Fine-tune foundation models on proprietary enterprise data, build Retrieval-Augmented Generation (RAG) knowledge assistants, and benchmark outputs to eliminate errors.",
+    growthOutlook:
+      "Exponential growth across enterprise AI research hubs, multinational tech labs, and specialized generative AI startups.",
+    avgSalaryRange: "₹12.0 – 18.0 LPA (Entry) → ₹32.0 – 50.0+ LPA (Staff Specialist)",
+    learningPath:
+      "Deep Learning Foundations (PyTorch) → Transformer Architectures → Production Fine-Tuning & Safety Guardrails.",
+    alternativePaths:
+      "Computer Vision Engineer, Natural Language Processing (NLP) Specialist, AI Product Architect.",
+    familyTalkingPoints: [
+      "The defining technology wave: Direct involvement in the technology shaping the future of global industry and work.",
+      "Peak market compensation: High technical scarcity commands premier salaries and fast compensation growth.",
+      "High creative and intellectual satisfaction: Creating systems that interact with human language and knowledge in real time.",
+    ],
+    commonFamilyQuestions: [
+      {
+        question: "Will AI eventually make this role obsolete?",
+        answer:
+          "On the contrary—human researchers and engineers are urgently needed to ensure AI remains safe, hallucination-free, cost-effective, and aligned with company values.",
+      },
+      {
+        question: "Can someone break into this early in their career?",
+        answer:
+          "Yes! By contributing to open-source models, training verifiable PyTorch demo projects, and understanding practical retrieval systems (RAG).",
+      },
+    ],
+  },
+  {
+    id: "data-science-leadership",
+    roleTitle: "Data Science Leadership & Strategy",
+    category: "Executive & Strategic Direction",
+    tagline: "Guides tech teams to solve high-impact organizational challenges.",
+    icon: "◈",
+    plainEnglishSummary:
+      "Bridges technical engineering teams with company executives, ensuring data initiatives solve real business problems, remain compliant with privacy laws, and deliver measurable return on investment.",
+    targetAudienceHeadline:
+      "The strategic bridge between technical teams and executive leadership.",
+    skillsMatch:
+      "Executive communication, empathetic mentorship, business acumen, and ethical governance.",
+    typicalWork:
+      "Prioritize high-ROI analytics initiatives, mentor engineers, review project architectures, negotiate budgets with C-suite leadership, and champion ethical AI usage.",
+    growthOutlook:
+      "Permanent senior demand across Fortune 500 enterprises, tech scale-ups, and consulting practices.",
+    avgSalaryRange: "₹25.0 – 38.0 LPA (Lead) → ₹50.0 – 80.0+ LPA (Director / VP)",
+    learningPath:
+      "Hands-on Technical Depth → Cross-Functional Project Ownership → Executive Strategy & Organizational Leadership.",
+    alternativePaths:
+      "Chief Data Officer (CDO), VP of Product Analytics, Quantitative Strategy Director.",
+    familyTalkingPoints: [
+      "Top-tier career summit: The natural progression for professionals who combine technical understanding with people leadership.",
+      "High strategic influence: Directly advises CEOs and Managing Directors on where to invest capital and technological effort.",
+      "Enduring career longevity: Leadership, organizational wisdom, and strategic judgment become more valuable with every year of experience.",
+    ],
+    commonFamilyQuestions: [
+      {
+        question: "Do leaders lose touch with technical skills?",
+        answer:
+          "Successful data leaders remain technically literate to evaluate architectural proposals, but focus their daily time on strategy, hiring, and business impact.",
+      },
+      {
+        question: "How long does it take to reach this level?",
+        answer:
+          "Typically 7 to 12 years of progressive technical ownership, team mentorship, and demonstrated commercial results.",
+      },
+    ],
+  },
+]
+

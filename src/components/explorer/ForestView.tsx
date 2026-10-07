@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { explorerFields } from "../../data/explorerData"
 import { ExplorerField } from "../../types"
 import Button from "../common/Button"
@@ -10,11 +11,39 @@ interface ForestViewProps {
   onExploreField: (fieldName: string) => void
 }
 
+type StatusType = "All" | "Growing" | "Steady" | "Emerging"
+
 export default function ForestView({
   selectedField,
   onSelectField,
   onExploreField,
 }: ForestViewProps) {
+  const [statusFilter, setStatusFilter] = useState<StatusType>("All")
+
+  const counts = {
+    All: explorerFields.length,
+    Growing: explorerFields.filter((f) => f.status === "Growing").length,
+    Steady: explorerFields.filter((f) => f.status === "Steady").length,
+    Emerging: explorerFields.filter((f) => f.status === "Emerging").length,
+  }
+
+  const filteredFields =
+    statusFilter === "All"
+      ? explorerFields
+      : explorerFields.filter((f) => f.status === statusFilter)
+
+  const handleFilterChange = (status: StatusType) => {
+    setStatusFilter(status)
+    const matching =
+      status === "All"
+        ? explorerFields
+        : explorerFields.filter((f) => f.status === status)
+
+    if (matching.length > 0 && !matching.some((f) => f.name === selectedField.name)) {
+      onSelectField(matching[0])
+    }
+  }
+
   return (
     <section
       className="explorer-feature-section forest-view-section"
@@ -24,30 +53,58 @@ export default function ForestView({
         <div>
           <div className="card-label">06 · Start wide</div>
           <Heading level={2}>Forest View</Heading>
-          <p>Before you choose one tree, see the whole forest.</p>
+          <p>Before you choose one tree, inspect growth velocity across the whole technology forest.</p>
         </div>
-        <span className="demo-label">Interactive prototype</span>
+        <div className="flex items-center gap-2">
+          <span className="demo-label">Interactive Field Matrix</span>
+          <span className="text-[11px] px-2.5 py-1 rounded-full bg-[rgba(32,80,61,0.08)] text-[var(--forest-800)] font-semibold border border-[rgba(32,80,61,0.18)]">
+            {filteredFields.length} of {explorerFields.length} Domains Active
+          </span>
+        </div>
       </div>
 
       <div className="forest-view-layout">
         <div className="career-forest" aria-label="Interactive career fields">
-          <div className="forest-status-key">
-            <span>
-              <i className="growing" />
-              Growing
+          {/* Interactive Status Filter Tabs */}
+          <div className="forest-status-key flex items-center gap-1.5 flex-wrap">
+            <span className="text-[10px] uppercase font-bold text-[var(--text-soft)] mr-1">
+              Filter Velocity:
             </span>
-            <span>
-              <i className="steady" />
-              Steady
-            </span>
-            <span>
-              <i className="emerging" />
-              Emerging
-            </span>
+            {(["All", "Growing", "Steady", "Emerging"] as StatusType[]).map(
+              (status) => {
+                const isActive = statusFilter === status
+                return (
+                  <button
+                    key={status}
+                    type="button"
+                    onClick={() => handleFilterChange(status)}
+                    className={`text-xs px-2.5 py-1 rounded-md border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      isActive
+                        ? "bg-[var(--forest-800)] text-white border-[var(--forest-900)] shadow-2xs font-semibold"
+                        : "bg-[var(--surface)] text-[var(--text-muted)] border-[var(--border)] hover:bg-[var(--surface-hover)]"
+                    }`}
+                  >
+                    {status !== "All" && (
+                      <i className={status.toLowerCase()} />
+                    )}
+                    <span>{status}</span>
+                    <span
+                      className={`text-[10px] px-1 py-0.2 rounded-full ${
+                        isActive
+                          ? "bg-[rgba(255,255,255,0.25)] text-white"
+                          : "bg-[rgba(0,0,0,0.06)] text-[var(--text-soft)]"
+                      }`}
+                    >
+                      {counts[status]}
+                    </span>
+                  </button>
+                )
+              }
+            )}
           </div>
 
           <div className="forest-tree-line">
-            {explorerFields.map((field) => (
+            {filteredFields.map((field) => (
               <button
                 key={field.name}
                 type="button"
@@ -67,23 +124,29 @@ export default function ForestView({
                 </span>
                 <span className="career-tree-trunk" />
                 <strong>{field.name}</strong>
-                <small>{field.status}</small>
+                <small className="flex items-center justify-center gap-1">
+                  <span>{field.status}</span>
+                  <span>· {field.height}% vel</span>
+                </small>
               </button>
             ))}
           </div>
         </div>
 
         <aside className="forest-field-detail">
-          <span className="demo-label">Illustrative field view</span>
-          <div className="field-status">
-            <i className={`status-${selectedField.status.toLowerCase()}`} />
-            {selectedField.status}
+          <div className="flex items-center justify-between">
+            <span className="demo-label">Domain Perspective</span>
+            <div className="field-status">
+              <i className={`status-${selectedField.status.toLowerCase()}`} />
+              <span className="font-semibold text-xs">{selectedField.status} Velocity</span>
+            </div>
           </div>
-          <Heading level={2}>{selectedField.name}</Heading>
-          <p>{selectedField.overview}</p>
+
+          <Heading level={2} className="mt-2 mb-1">{selectedField.name}</Heading>
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">{selectedField.overview}</p>
 
           <div className="field-detail-group">
-            <strong>Example roles</strong>
+            <strong>Example market roles</strong>
             <div className="chip-row">
               {selectedField.roles.map((role) => (
                 <SkillChip key={role} tone="lime">
@@ -94,7 +157,7 @@ export default function ForestView({
           </div>
 
           <div className="field-detail-group">
-            <strong>Key skills</strong>
+            <strong>Key foundation skills</strong>
             <div className="chip-row">
               {selectedField.skills.map((skill) => (
                 <SkillChip key={skill}>{skill}</SkillChip>
@@ -103,15 +166,16 @@ export default function ForestView({
           </div>
 
           <div className="field-detail-group">
-            <strong>Related paths</strong>
-            <span>{selectedField.related.join(" · ")}</span>
+            <strong>Adjacent career pathways</strong>
+            <span className="text-xs text-[var(--text-muted)]">{selectedField.related.join(" · ")}</span>
           </div>
 
           <Button
             icon="arrow"
             onClick={() => onExploreField(selectedField.name)}
+            className="w-full mt-2"
           >
-            Explore this field
+            Explore {selectedField.name} in Career Rooms
           </Button>
         </aside>
       </div>

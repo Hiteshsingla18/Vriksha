@@ -6,6 +6,7 @@ import {
   explorerRooms,
   explorerSections,
   SearchResultItem,
+  FamilyBriefRole,
 } from "../../data/explorerData"
 import { useActiveSection } from "../../hooks/useActiveSection"
 import { CareerRoom, ExplorerField, ExplorerProfile, PortalId } from "../../types"
@@ -49,6 +50,9 @@ export default function ExplorerContent({
   const [selectedProfile, setSelectedProfile] =
     useState<ExplorerProfile | null>(null)
   const [familyPreview, setFamilyPreview] = useState(false)
+  const [selectedFamilyRole, setSelectedFamilyRole] = useState<FamilyBriefRole | null>(null)
+  const [familyStudentName, setFamilyStudentName] = useState("Candidate")
+  const [familyAudience, setFamilyAudience] = useState("Parents & Guardians")
 
   // Register scroll spy
   useActiveSection(explorerSections, onViewChange, scrollTargetRef)
@@ -399,10 +403,22 @@ export default function ExplorerContent({
       <RegretRadar />
 
       {/* 03. Family Brief */}
-      <FamilyBrief onGeneratePreview={() => setFamilyPreview(true)} />
+      <FamilyBrief
+        onGeneratePreview={(role, name, aud) => {
+          setSelectedFamilyRole(role)
+          setFamilyStudentName(name)
+          setFamilyAudience(aud)
+          setFamilyPreview(true)
+        }}
+      />
 
       {/* 04. React to Real Work */}
-      <RealWork />
+      <RealWork
+        onSelectRoom={(room) => {
+          setSelectedRoom(room)
+          setRoomStarted(false)
+        }}
+      />
 
       {/* 05. Nearby Not Famous */}
       <NearbyProfiles onSelectProfile={(profile) => setSelectedProfile(profile)} />
@@ -427,6 +443,9 @@ export default function ExplorerContent({
         onCloseProfile={() => setSelectedProfile(null)}
         familyPreview={familyPreview}
         onCloseFamilyPreview={() => setFamilyPreview(false)}
+        familyRole={selectedFamilyRole}
+        studentName={familyStudentName}
+        audience={familyAudience}
       />
     </div>
   )
