@@ -8,6 +8,7 @@ import CompensationTrajectory from "./CompensationTrajectory"
 import MarketRecommendations from "./MarketRecommendations"
 import MentorSection from "./MentorSection"
 import SkillHalfLife from "./SkillHalfLife"
+import { MarketRadarFlightDeck } from "./MarketRadarFlightDeck"
 
 interface GrowerWorkspaceProps {
   fromBuilder?: boolean
@@ -69,6 +70,10 @@ export default function GrowerWorkspace({
           </p>
         </div>
       </section>
+
+      <div className="mb-8">
+        <MarketRadarFlightDeck />
+      </div>
 
       {/* 01. Market Recommendations */}
       <MarketRecommendations />
