@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 type PortalId = "home" | "explorer" | "builder" | "grower" | "colleges" | "hiring" | "company"
 type IconName = "search" | "bell" | "arrow" | "spark" | "grid" | "branch" | "book" | "people" | "building" | "menu" | "close" | "chevron" | "check" | "target"
@@ -1532,7 +1532,642 @@ function ExplorerContent({
             </button>
           ))}
         </div>
+/* --- BUILDER PORTAL — TREE OVERLAY ENGINE --- */
+function TreeOverlayVisualizer() {
+  const [targetRole, setTargetRole] = useState("Data Scientist")
+  const [expYears, setExpYears] = useState(2.0)
+  const [skillsText, setSkillsText] = useState("Python, SQL, Tableau, Statistics, Excel")
+  const [resumeText, setResumeText] = useState("Aspiring Data Practitioner skilled in Python, SQL, Tableau, A/B Testing, and Descriptive Statistics.")
+  const [activeFilter, setActiveFilter] = useState<"all" | "thriving_unlit" | "lit">("all")
+  const [treeData, setTreeData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [selectedLeaf, setSelectedLeaf] = useState<any>(null)
+
+  const rolesList = [
+    "Data Scientist",
+    "Machine Learning Engineer",
+    "Data Engineer",
+    "Data Analyst",
+    "Senior Data Scientist"
+  ]
+
+  const fetchTreeOverlay = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/builder/tree-overlay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          target_role: targetRole,
+          current_experience_years: expYears,
+          user_skills: skillsText.split(",").map(s => s.trim()).filter(Boolean),
+          raw_resume_text: resumeText
+        })
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setTreeData(data)
+      } else {
+        throw new Error("Backend offline")
+      }
+    } catch {
+      simulateTreeOverlay()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const simulateTreeOverlay = () => {
+    const userSkillsSet = new Set(skillsText.toLowerCase().split(",").map(s => s.trim()).filter(Boolean))
+    
+    const branchDefs = [
+      {
+        id: "maths_stats", label: "Mathematics & Statistics", weight: 0.28, correlation_r: 0.51,
+        leaves: [
+          { id: "la", label: "Linear Algebra & Matrix Ops", canonical: "Linear Algebra", correlation_r: 0.52, prevalence: 78 },
+          { id: "ab", label: "Hypothesis & A/B Testing", canonical: "A/B Testing", correlation_r: 0.54, prevalence: 82 },
+          { id: "prob", label: "Probability & Bayesian Models", canonical: "Probability", correlation_r: 0.48, prevalence: 75 },
+          { id: "ts", label: "Time Series & Forecasting", canonical: "Time Series", correlation_r: 0.44, prevalence: 68 },
+          { id: "pca", label: "PCA & SVD Matrix Decomposition", canonical: "PCA", correlation_r: 0.35, prevalence: 55 },
+          { id: "stats", label: "Descriptive Summary Stats", canonical: "Statistics", correlation_r: 0.18, prevalence: 90 }
+        ]
+      },
+      {
+        id: "dashboard_storytelling", label: "Data Storytelling & Dashboarding", weight: 0.28, correlation_r: 0.54,
+        leaves: [
+          { id: "tab", label: "Tableau & PowerBI Dashboards", canonical: "Tableau", correlation_r: 0.56, prevalence: 85 },
+          { id: "story", label: "Executive Data Storytelling", canonical: "Data Storytelling", correlation_r: 0.58, prevalence: 80 },
+          { id: "kpi", label: "KPI Design & BI Metrics", canonical: "KPI Design", correlation_r: 0.52, prevalence: 76 },
+          { id: "plotly", label: "Plotly & D3.js Custom Charts", canonical: "Plotly", correlation_r: 0.42, prevalence: 60 },
+          { id: "excel", label: "Spreadsheet Reporting", canonical: "Excel", correlation_r: 0.15, prevalence: 92 }
+        ]
+      },
+      {
+        id: "coding", label: "Coding & Software Fundamentals", weight: 0.22, correlation_r: 0.43,
+        leaves: [
+          { id: "py", label: "Advanced Python Architecture", canonical: "Python", correlation_r: 0.55, prevalence: 94 },
+          { id: "sql", label: "SQL & Query Optimization", canonical: "SQL", correlation_r: 0.49, prevalence: 91 },
+          { id: "sd", label: "System Design & Clean Code", canonical: "System Design", correlation_r: 0.46, prevalence: 70 },
+          { id: "dsa", label: "Data Structures & Algorithms", canonical: "Algorithms", correlation_r: 0.42, prevalence: 74 },
+          { id: "git", label: "Git Version Control & CI/CD", canonical: "Git", correlation_r: 0.38, prevalence: 80 }
+        ]
+      },
+      {
+        id: "ai_ml", label: "AI, ML & Modeling", weight: 0.17, correlation_r: 0.41,
+        leaves: [
+          { id: "torch", label: "PyTorch Deep Learning & Neural Nets", canonical: "PyTorch", correlation_r: 0.58, prevalence: 72 },
+          { id: "llm", label: "LLMs, RAG & Transformers", canonical: "Transformers", correlation_r: 0.62, prevalence: 68 },
+          { id: "ml", label: "XGBoost & Scikit-Learn Ensembles", canonical: "Machine Learning", correlation_r: 0.47, prevalence: 88 },
+          { id: "mlops", label: "MLOps & Model Deployment", canonical: "FastAPI", correlation_r: 0.51, prevalence: 58 }
+        ]
+      },
+      {
+        id: "big_data", label: "Infrastructure & Big Data Tools", weight: 0.05, correlation_r: 0.11,
+        leaves: [
+          { id: "spark", label: "Apache Spark & PySpark", canonical: "PySpark", correlation_r: 0.45, prevalence: 65 },
+          { id: "bq", label: "Snowflake & Google BigQuery", canonical: "BigQuery", correlation_r: 0.42, prevalence: 62 },
+          { id: "airflow", label: "Apache Airflow & ETL Pipelines", canonical: "Airflow", correlation_r: 0.36, prevalence: 54 },
+          { id: "hadoop", label: "Legacy Hadoop / MapReduce", canonical: "Hadoop", correlation_r: 0.08, prevalence: 30 }
+        ]
+      }
+    ]
+
+    let totalLeaves = 0, litCount = 0, thrivingUnlitCount = 0, accumRoi = 0.0
+    const processedBranches = branchDefs.map(b => {
+      let userProf = 0.0
+      const processedLeaves = b.leaves.map(l => {
+        totalLeaves++
+        const isPossessed = Array.from(userSkillsSet).some(u => 
+          l.canonical.toLowerCase().includes(u) || l.label.toLowerCase().includes(u) || u.includes(l.canonical.toLowerCase())
+        )
+        let state = "steady"
+        let roiHike = 0.0
+        let prof = 0.0
+
+        if (isPossessed) {
+          state = "lit"
+          litCount++
+          userProf += 1.0
+          prof = Math.min(5.0, 3.2 + expYears * 0.4)
+        } else if (l.correlation_r >= 0.40 && l.prevalence >= 50) {
+          state = "thriving_unlit"
+          thrivingUnlitCount++
+          roiHike = Math.round(l.correlation_r * b.weight * 100 * 10) / 10
+          accumRoi += roiHike
+        } else if (l.correlation_r >= 0.25) {
+          state = "steady"
+        } else {
+          state = "fading"
+        }
+
+        return {
+          id: l.id,
+          label: l.label,
+          canonical_name: l.canonical,
+          state,
+          correlation_r: l.correlation_r,
+          roi_hike_potential_pct: roiHike,
+          market_prevalence_pct: l.prevalence,
+          user_proficiency: prof
+        }
+      })
+
+      const leafRatio = userProf / Math.max(1, b.leaves.length)
+      const branchProf = Math.min(5.0, Math.max(1.0, 1.0 + leafRatio * 4.0))
+
+      return {
+        id: b.id,
+        label: b.label,
+        weight: b.weight,
+        correlation_r: b.correlation_r,
+        user_proficiency: Math.round(branchProf * 100) / 100,
+        target_requirement: 4.5,
+        leaves: processedLeaves
+      }
+    })
+
+    const readinessPct = Math.round((litCount / Math.max(1, totalLeaves)) * 100)
+    const baseSalary = Math.round((4.5 + expYears * 2.8) * 10) / 10
+    const projHikePct = Math.min(65.0, Math.round(accumRoi * 0.75 * 10) / 10)
+    const projMaxSalary = Math.round(baseSalary * (1 + projHikePct / 100) * 10) / 10
+
+    setTreeData({
+      tree_id: "tree_simulated",
+      target_role: targetRole,
+      role_benchmark: {
+        avg_salary_lpa: baseSalary,
+        min_salary_lpa: Math.round(baseSalary * 0.6 * 10) / 10,
+        max_salary_lpa: Math.round(baseSalary * 1.8 * 10) / 10,
+        salary_per_exp_year: Math.round((baseSalary / Math.max(1, expYears)) * 100) / 100,
+        recommended_exp_years: expYears
+      },
+      branches: processedBranches,
+      telemetry: {
+        total_target_leaves: totalLeaves,
+        lit_leaves_count: litCount,
+        thriving_unlit_gaps_count: thrivingUnlitCount,
+        current_readiness_pct: readinessPct,
+        projected_salary_hike_pct: projHikePct,
+        projected_max_salary_lpa: projMaxSalary,
+        leadership_resilience_index: Math.round((1.2 + expYears * 0.4) * 100) / 100
+      }
+    })
+  }
+
+  useEffect(() => {
+    fetchTreeOverlay()
+  }, [targetRole, expYears])
+
+  return (
+    <div className="builder-tree-overlay-wrapper" style={{ marginTop: 24 }}>
+      <div className="panel" style={{ background: "var(--forest-950)", color: "white", padding: 24, borderRadius: 16 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16, marginBottom: 20 }}>
+          <div>
+            <div style={{ color: "var(--lime-300)", textTransform: "uppercase", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em" }}>
+              🌳 Builder Portal — Tree Overlay Engine
+            </div>
+            <h2 style={{ fontFamily: "var(--serif)", fontSize: 28, margin: "6px 0 0 0", fontWeight: 400, color: "white" }}>
+              Data Science Talent Graph & High-ROI Gap Overlay
+            </h2>
+            <p style={{ color: "var(--sage-300)", fontSize: 14, margin: "4px 0 0 0" }}>
+              Compare your verified lit skills against target market role benchmarks. Identify immediate high-ROI target gaps.
+            </p>
+          </div>
+          <button 
+            onClick={fetchTreeOverlay}
+            style={{ background: "var(--lime-500)", color: "var(--forest-950)", border: 0, padding: "10px 20px", borderRadius: 8, fontWeight: 600, cursor: "pointer" }}
+          >
+            {loading ? "Re-computing Tree..." : "Generate Tree Overlay"}
+          </button>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, background: "rgba(255,255,255,0.06)", padding: 16, borderRadius: 12 }}>
+          <div>
+            <label style={{ display: "block", fontSize: 12, color: "var(--sage-300)", marginBottom: 6 }}>Target Data Science Role</label>
+            <select 
+              value={targetRole} 
+              onChange={e => setTargetRole(e.target.value)}
+              style={{ width: "100%", padding: "10px", borderRadius: 8, background: "var(--forest-900)", color: "white", border: "1px solid var(--forest-800)", fontSize: 14 }}
+            >
+              {rolesList.map(r => <option key={r} value={r}>{r}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: "block", fontSize: 12, color: "var(--sage-300)", marginBottom: 6 }}>Current Experience Level (Years)</label>
+            <input 
+              type="number" 
+              step="0.5" 
+              min="0" 
+              max="15"
+              value={expYears} 
+              onChange={e => setExpYears(parseFloat(e.target.value) || 0)}
+              style={{ width: "100%", padding: "10px", borderRadius: 8, background: "var(--forest-900)", color: "white", border: "1px solid var(--forest-800)", fontSize: 14 }}
+            />
+          </div>
+
+          <div style={{ gridColumn: "span 2" }}>
+            <label style={{ display: "block", fontSize: 12, color: "var(--sage-300)", marginBottom: 6 }}>Verified Skills (Comma Separated)</label>
+            <input 
+              type="text" 
+              value={skillsText} 
+              onChange={e => setSkillsText(e.target.value)}
+              placeholder="e.g. Python, SQL, Tableau, Statistics, PyTorch"
+              style={{ width: "100%", padding: "10px", borderRadius: 8, background: "var(--forest-900)", color: "white", border: "1px solid var(--forest-800)", fontSize: 14 }}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, marginTop: 16, alignItems: "center" }}>
+          <span style={{ fontSize: 12, color: "var(--sage-300)" }}>Filter Leaf States:</span>
+          <button 
+            onClick={() => setActiveFilter("all")}
+            style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600, border: "1px solid var(--forest-700)", cursor: "pointer", background: activeFilter === "all" ? "var(--lime-500)" : "transparent", color: activeFilter === "all" ? "var(--forest-950)" : "white" }}
+          >
+            All Leaves
+          </button>
+          <button 
+            onClick={() => setActiveFilter("thriving_unlit")}
+            style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600, border: "1px solid var(--warm)", cursor: "pointer", background: activeFilter === "thriving_unlit" ? "var(--warm)" : "transparent", color: activeFilter === "thriving_unlit" ? "var(--forest-950)" : "white" }}
+          >
+            🔥 Thriving Unlit (High ROI Gaps)
+          </button>
+          <button 
+            onClick={() => setActiveFilter("lit")}
+            style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600, border: "1px solid var(--sage-500)", cursor: "pointer", background: activeFilter === "lit" ? "var(--sage-500)" : "transparent", color: activeFilter === "lit" ? "var(--forest-950)" : "white" }}
+          >
+            🟢 Verified Lit Skills
+          </button>
+        </div>
       </div>
+
+      {treeData && (
+        <>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, margin: "20px 0" }}>
+            <div className="panel" style={{ background: "white", border: "1px solid var(--line)", padding: 20, borderRadius: 14 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", fontWeight: 600 }}>Role Target Readiness</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--forest-950)", marginTop: 4 }}>
+                {treeData.telemetry.current_readiness_pct}%
+              </div>
+              <div style={{ fontSize: 12, color: "var(--forest-700)", marginTop: 4 }}>
+                {treeData.telemetry.lit_leaves_count} of {treeData.telemetry.total_target_leaves} target skills verified
+              </div>
+            </div>
+
+            <div className="panel" style={{ background: "white", border: "1px solid var(--line)", padding: 20, borderRadius: 14 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", fontWeight: 600 }}>High-ROI Skill Gaps</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--warm)", marginTop: 4 }}>
+                {treeData.telemetry.thriving_unlit_gaps_count}
+              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
+                Immediate Thriving Unlit priority skills
+              </div>
+            </div>
+
+            <div className="panel" style={{ background: "white", border: "1px solid var(--line)", padding: 20, borderRadius: 14 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", fontWeight: 600 }}>Market Salary Benchmark</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--forest-950)", marginTop: 4 }}>
+                ₹{treeData.role_benchmark.avg_salary_lpa} <small style={{ fontSize: 16 }}>LPA</small>
+              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
+                Range: ₹{treeData.role_benchmark.min_salary_lpa} - ₹{treeData.role_benchmark.max_salary_lpa} LPA
+              </div>
+            </div>
+
+            <div className="panel" style={{ background: "#163c2e", color: "white", padding: 20, borderRadius: 14 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--lime-300)", fontWeight: 600 }}>Projected Hike Potential</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--lime-500)", marginTop: 4 }}>
+                +{treeData.telemetry.projected_salary_hike_pct}%
+              </div>
+              <div style={{ fontSize: 12, color: "var(--sage-200)", marginTop: 4 }}>
+                Projected Max: ₹{treeData.telemetry.projected_max_salary_lpa} LPA
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {treeData.branches.map((branch: any) => {
+              const filteredLeaves = branch.leaves.filter((l: any) => {
+                if (activeFilter === "lit") return l.state === "lit"
+                if (activeFilter === "thriving_unlit") return l.state === "thriving_unlit"
+                return true
+              })
+
+              if (filteredLeaves.length === 0) return null
+
+              return (
+                <div key={branch.id} className="panel" style={{ background: "white", padding: 24, borderRadius: 16, border: "1px solid var(--line)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                    <div>
+                      <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, color: "var(--forest-700)" }}>
+                        BRANCH WEIGHT: {(branch.weight * 100).toFixed(0)}% · HIKE CORRELATION r = {branch.correlation_r}
+                      </span>
+                      <h3 style={{ margin: "4px 0 0 0", fontSize: 20, fontFamily: "var(--serif)", color: "var(--forest-950)" }}>
+                        {branch.label}
+                      </h3>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 12, color: "var(--muted)" }}>Proficiency Rating</div>
+                      <strong style={{ fontSize: 18, color: "var(--forest-900)" }}>{branch.user_proficiency} / 5.0</strong>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
+                    {filteredLeaves.map((leaf: any) => {
+                      const isLit = leaf.state === "lit"
+                      const isThriving = leaf.state === "thriving_unlit"
+                      const isSteady = leaf.state === "steady"
+
+                      let cardBg = "#f7f5ee"
+                      let borderColor = "var(--line)"
+                      let stateBadge = null
+
+                      if (isLit) {
+                        cardBg = "rgba(45, 103, 79, 0.08)"
+                        borderColor = "var(--forest-700)"
+                        stateBadge = <span style={{ background: "var(--forest-700)", color: "white", fontSize: 10, padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>🟢 Lit (Verified)</span>
+                      } else if (isThriving) {
+                        cardBg = "rgba(197, 140, 83, 0.12)"
+                        borderColor = "var(--warm)"
+                        stateBadge = <span style={{ background: "var(--warm)", color: "white", fontSize: 10, padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>🔥 Thriving Unlit (+{leaf.roi_hike_potential_pct}% ROI)</span>
+                      } else if (isSteady) {
+                        cardBg = "#ffffff"
+                        borderColor = "var(--line)"
+                        stateBadge = <span style={{ background: "#e9eee7", color: "var(--forest-900)", fontSize: 10, padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>🔵 Steady Baseline</span>
+                      } else {
+                        cardBg = "#f3f3f0"
+                        borderColor = "#deded9"
+                        stateBadge = <span style={{ background: "#d0d0c8", color: "#606058", fontSize: 10, padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>🍂 Fading / Commoditized</span>
+                      }
+
+                      return (
+                        <div 
+                          key={leaf.id}
+                          onClick={() => setSelectedLeaf(leaf)}
+                          style={{
+                            background: cardBg,
+                            border: `1.5px solid ${borderColor}`,
+                            borderRadius: 12,
+                            padding: 16,
+                            cursor: "pointer",
+                            transition: "all 0.2s ease"
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                            <strong style={{ fontSize: 14, color: "var(--ink)" }}>{leaf.label}</strong>
+                            {stateBadge}
+                          </div>
+
+                          <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--muted)" }}>
+                            <span>Prevalence: {leaf.market_prevalence_pct}%</span>
+                            <span>Correlation: r = {leaf.correlation_r}</span>
+                          </div>
+
+                          {isLit && (
+                            <div style={{ marginTop: 8, fontSize: 12, fontWeight: 600, color: "var(--forest-700)" }}>
+                              User Skill Rating: {leaf.user_proficiency} / 5.0
+                            </div>
+                          )}
+
+                          {isThriving && (
+                            <div style={{ marginTop: 8, fontSize: 12, fontWeight: 600, color: "var(--warm)" }}>
+                              High ROI Target Gap · Prioritize Learning
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+/* --- HIRING PORTAL — SHADOW CANDIDATE AUDIT DASHBOARD --- */
+function ShadowCandidateAuditDashboard() {
+  const [jobTitle, setJobTitle] = useState("Senior Data Scientist")
+  const [minExp, setMinExp] = useState(3.0)
+  const [jdText, setJdText] = useState("Seeking a Senior Data Scientist proficient in Python, Statistics, Machine Learning, Tableau, and PySpark.")
+  const [auditData, setAuditData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+
+  const runAudit = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/audit/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          job_deconstruction: {
+            job_designation: jobTitle,
+            min_experience: minExp,
+            raw_text: jdText
+          }
+        })
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setAuditData(data)
+      } else {
+        throw new Error("Backend offline")
+      }
+    } catch {
+      simulateAudit()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const simulateAudit = () => {
+    setAuditData({
+      audit_id: "audit_simulated",
+      timestamp: new Date().toISOString(),
+      summary: {
+        total_processed: 5,
+        passed_ats_count: 2,
+        filtered_out_count: 3,
+        shadow_candidates_recovered: 2,
+        shadow_candidate_ratio_pct: 66.7,
+        high_fit_total_count: 3
+      },
+      over_filtering_tax: {
+        shadow_candidate_ratio_pct: 66.7,
+        avg_market_salary_filtered_high_fit_lpa: 12.8,
+        avg_market_salary_recruited_lpa: 16.5,
+        salary_spread_lpa: 3.7,
+        cost_inefficiency_tax_pct: 28.9,
+        missed_talent_pool_count: 2
+      },
+      ranked_candidates: [
+        {
+          candidate_id: "c1",
+          candidate_name: "Priya Patel (Shadow Gem)",
+          match_index_pct: 88.5,
+          composite_score: 4.45,
+          composite_score_pct: 89.0,
+          ats_status: "Filtered Out",
+          is_shadow_candidate: true,
+          rejection_reasons: ["Insufficient Experience: Has 2.5 yrs, JD requires minimum 3.0 yrs."],
+          years_experience: 2.5,
+          recent_titles: ["Data Analyst"],
+          missing_skills: ["PySpark"],
+          complementary_strengths: ["Linear Algebra", "Tableau", "Python", "A/B Testing"]
+        },
+        {
+          candidate_id: "c2",
+          candidate_name: "Rohan Gupta",
+          match_index_pct: 84.0,
+          composite_score: 4.20,
+          composite_score_pct: 84.0,
+          ats_status: "Passed ATS",
+          is_shadow_candidate: false,
+          rejection_reasons: [],
+          years_experience: 5.0,
+          recent_titles: ["Senior Data Scientist"],
+          missing_skills: [],
+          complementary_strengths: ["TensorFlow", "AWS"]
+        },
+        {
+          candidate_id: "c3",
+          candidate_name: "Ananya Roy (Shadow Gem)",
+          match_index_pct: 79.2,
+          composite_score: 3.96,
+          composite_score_pct: 79.2,
+          ats_status: "Filtered Out",
+          is_shadow_candidate: true,
+          rejection_reasons: ["Title Mismatch: Title 'Backend Software Engineer' does not match 'Senior Data Scientist'."],
+          years_experience: 5.0,
+          recent_titles: ["Backend Software Engineer"],
+          missing_skills: ["Tableau"],
+          complementary_strengths: ["C++", "PySpark", "Algorithms"]
+        }
+      ]
+    })
+  }
+
+  useEffect(() => {
+    runAudit()
+  }, [])
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <div className="panel" style={{ background: "var(--forest-950)", color: "white", padding: 24, borderRadius: 16 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+          <div>
+            <div style={{ color: "var(--lime-300)", textTransform: "uppercase", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em" }}>
+              🛡️ Hiring Portal — Shadow Candidate Audit Engine
+            </div>
+            <h2 style={{ fontFamily: "var(--serif)", fontSize: 26, margin: "4px 0 0 0", color: "white" }}>
+              Recover High-Fit Talent Filtered Out by Rigid Recruiter Constraints
+            </h2>
+          </div>
+          <button onClick={runAudit} style={{ background: "var(--lime-500)", color: "var(--forest-950)", border: 0, padding: "10px 20px", borderRadius: 8, fontWeight: 600, cursor: "pointer" }}>
+            {loading ? "Auditing Pool..." : "Run Shadow Candidate Audit"}
+          </button>
+        </div>
+      </div>
+
+      {auditData && (
+        <>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, margin: "20px 0" }}>
+            <div className="panel" style={{ background: "white", padding: 20, borderRadius: 14, border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", fontWeight: 600 }}>Shadow Candidate Ratio</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--warm)", marginTop: 4 }}>
+                {auditData.summary.shadow_candidate_ratio_pct}%
+              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
+                {auditData.summary.shadow_candidates_recovered} high-fit candidates wrongly filtered out
+              </div>
+            </div>
+
+            <div className="panel" style={{ background: "white", padding: 20, borderRadius: 14, border: "1px solid var(--line)" }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", fontWeight: 600 }}>Over-Filtering Tax (Salary Spread)</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--forest-950)", marginTop: 4 }}>
+                ₹{auditData.over_filtering_tax.salary_spread_lpa} <small style={{ fontSize: 16 }}>LPA</small>
+              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
+                Recruited: ₹{auditData.over_filtering_tax.avg_market_salary_recruited_lpa} vs Shadow: ₹{auditData.over_filtering_tax.avg_market_salary_filtered_high_fit_lpa} LPA
+              </div>
+            </div>
+
+            <div className="panel" style={{ background: "#163c2e", color: "white", padding: 20, borderRadius: 14 }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--lime-300)", fontWeight: 600 }}>Cost Inefficiency Premium</div>
+              <div style={{ fontSize: 32, fontFamily: "var(--serif)", color: "var(--lime-500)", marginTop: 4 }}>
+                +{auditData.over_filtering_tax.cost_inefficiency_tax_pct}%
+              </div>
+              <div style={{ fontSize: 12, color: "var(--sage-200)", marginTop: 4 }}>
+                Premium paid for strict title-matched candidates
+              </div>
+            </div>
+          </div>
+
+          <div className="panel" style={{ background: "white", padding: 24, borderRadius: 16, border: "1px solid var(--line)" }}>
+            <h3 style={{ fontFamily: "var(--serif)", fontSize: 22, margin: "0 0 16px 0", color: "var(--forest-950)" }}>
+              Ranked Candidate Match & Shadow Candidate Audit Table
+            </h3>
+            
+            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+              <thead>
+                <tr style={{ borderBottom: "2px solid var(--line)", fontSize: 12, color: "var(--muted)", textTransform: "uppercase" }}>
+                  <th style={{ padding: 10 }}>Candidate</th>
+                  <th style={{ padding: 10 }}>Match Index</th>
+                  <th style={{ padding: 10 }}>Composite Score</th>
+                  <th style={{ padding: 10 }}>ATS Status</th>
+                  <th style={{ padding: 10 }}>Audit Finding</th>
+                  <th style={{ padding: 10 }}>Rejection Reason / Complementary Strengths</th>
+                </tr>
+              </thead>
+              <tbody>
+                {auditData.ranked_candidates.map((cand: any) => (
+                  <tr key={cand.candidate_id} style={{ borderBottom: "1px solid var(--line)", background: cand.is_shadow_candidate ? "rgba(197, 140, 83, 0.08)" : "transparent" }}>
+                    <td style={{ padding: 12 }}>
+                      <strong style={{ display: "block", color: "var(--ink)" }}>{cand.candidate_name}</strong>
+                      <small style={{ color: "var(--muted)" }}>{cand.years_experience} yrs exp · {cand.recent_titles.join(", ")}</small>
+                    </td>
+                    <td style={{ padding: 12 }}>
+                      <strong style={{ fontSize: 16, color: "var(--forest-950)" }}>{cand.match_index_pct}%</strong>
+                    </td>
+                    <td style={{ padding: 12 }}>
+                      <strong>{cand.composite_score} / 5.0</strong> ({cand.composite_score_pct}%)
+                    </td>
+                    <td style={{ padding: 12 }}>
+                      <span style={{ 
+                        padding: "4px 10px", borderRadius: 12, fontSize: 11, fontWeight: 600,
+                        background: cand.ats_status === "Passed ATS" ? "#d5dfd3" : "#f5e9d8",
+                        color: cand.ats_status === "Passed ATS" ? "var(--forest-900)" : "var(--warm)"
+                      }}>
+                        {cand.ats_status}
+                      </span>
+                    </td>
+                    <td style={{ padding: 12 }}>
+                      {cand.is_shadow_candidate ? (
+                        <span style={{ background: "var(--warm)", color: "white", padding: "4px 10px", borderRadius: 12, fontSize: 11, fontWeight: 700 }}>
+                          💎 SHADOW CANDIDATE RECOVERED
+                        </span>
+                      ) : (
+                        <span style={{ color: "var(--muted)", fontSize: 12 }}>Standard Filter</span>
+                      )}
+                    </td>
+                    <td style={{ padding: 12, fontSize: 12 }}>
+                      {cand.rejection_reasons.length > 0 ? (
+                        <div style={{ color: "#b91c1c", marginBottom: 4 }}>⚠️ {cand.rejection_reasons[0]}</div>
+                      ) : null}
+                      <div style={{ color: "var(--forest-700)" }}>
+                        Strengths: {cand.complementary_strengths.join(", ")}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -1640,6 +2275,7 @@ function BuilderContent({
     return (
       <div className="builder-context-screen">
         {targetContext}
+        <TreeOverlayVisualizer />
         <div className="builder-skill-summary">
           <div className="panel">
             <div className="card-label">Current skills</div>
