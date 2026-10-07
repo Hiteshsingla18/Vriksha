@@ -4,6 +4,7 @@ import AttritionRisk from "./AttritionRisk"
 import BenchRadar from "./BenchRadar"
 import BuildBuySimulator from "./BuildBuySimulator"
 import MobilityPathways from "./MobilityPathways"
+import LivingSkillTree from "../common/LivingSkillTree"
 
 interface CompanyWorkspaceProps {
   fromHiring?: boolean
@@ -53,6 +54,18 @@ export default function CompanyWorkspace({
       </section>
 
       <BenchRadar />
+
+      <div className="px-6 lg:px-12 mt-12 mb-12">
+        <LivingSkillTree
+          context="company"
+          targetRole="AI Architect"
+          currentSkills={["Python", "Machine Learning", "System Design", "Algorithms"]}
+          experienceYears={6.0}
+          title="Enterprise Capability Blueprint"
+          subtitle="Your aggregated workforce baseline vs. the target AI Architect blueprint."
+          cardLabel="02 · Workforce Skill Gap"
+        />
+      </div>
 
       <BuildBuySimulator />
 
