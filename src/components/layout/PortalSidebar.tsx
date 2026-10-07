@@ -44,12 +44,27 @@ export default function PortalSidebar({
         </nav>
       </div>
 
-      <div className="sidebar-help mt-8 hidden md:flex items-start gap-2 pt-4 border-t border-[var(--line)]">
-        <Icon name="spark" size={16} />
-        <div>
-          <strong className="block text-xs text-[var(--forest-800)]">Shared context</strong>
-          <p className="text-[11px] text-[var(--muted)] m-0">Your activity connects across every Vriksha portal.</p>
+      {/* Track Your Progress Card matching Figma reference */}
+      <div className="mt-6 p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
+        <strong className="block text-xs font-bold text-slate-900 mb-1">Track Your Progress</strong>
+        <p className="text-[11px] text-slate-500 leading-snug mb-3">Complete skills and move closer to your dream role.</p>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-full bg-[#10b981] rounded-full w-[70%]" />
+          </div>
+          <span className="text-[11px] font-mono font-bold text-slate-700">70%</span>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            const el = document.getElementById("tree-overlay")
+            if (el) el.scrollIntoView({ behavior: "smooth" })
+          }}
+          className="text-[11px] font-semibold text-slate-700 hover:text-emerald-700 flex items-center gap-1.5 transition-colors cursor-pointer group"
+        >
+          <span>View Learning Plan</span>
+          <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+        </button>
       </div>
     </aside>
   )

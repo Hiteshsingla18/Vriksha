@@ -94,8 +94,8 @@ export default function Header({ active, onNavigate }: HeaderProps) {
             <button className="profile-menu" aria-label="Open profile menu">
               <span className="avatar">AK</span>
               <span className="profile-copy">
-                <strong>Arun Kumar</strong>
-                <small>Personal workspace</small>
+                <strong>Arman Kumar</strong>
+                <small>Student · Chandigarh University</small>
               </span>
               <Icon name="chevron" size={13} />
             </button>

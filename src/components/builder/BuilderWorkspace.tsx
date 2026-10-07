@@ -54,43 +54,8 @@ export default function BuilderWorkspace({
         : "Machine Learning Engineer"
 
   return (
-    <div className="builder-product">
-      <section className="builder-product-hero">
-        <div className="builder-hero-copy">
-          <div className="eyebrow">Builder</div>
-          <Heading level={1}>Build the path, not another course list.</Heading>
-          <p>
-            Career chosen, stuck on how to build it — tell me exactly where I
-            need help.
-          </p>
-          <div className="builder-target-role">
-            <span className="activity-icon">
-              <Icon name="target" size={17} />
-            </span>
-            <div>
-              <small>Active target role</small>
-              <strong>{targetRole}</strong>
-              <span>
-                {fromExplorer || fromGrower || fromColleges || fromHiring
-                  ? "Context carried forward from your connected Vriksha journey."
-                  : "Illustrative Builder target for this prototype."}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="builder-hero-progress">
-          <span>Target readiness · Illustrative</span>
-          <strong>64%</strong>
-          <ProgressBar value={64} tone="gold" />
-          <div>
-            <small>3 verified strengths</small>
-            <small>4 ranked gaps</small>
-          </div>
-        </div>
-      </section>
-
-      {/* 01. Tree Overlay */}
+    <div className="builder-product flex flex-col gap-10">
+      {/* 01. Tree Overlay (Primary Figma screen) */}
       <SkillTreeOverlay targetRole={targetRole} />
 
       {/* 02. Stuck Detector */}
