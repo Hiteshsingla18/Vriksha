@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { builderSections } from "../../data/builderData"
 import { useActiveSection } from "../../hooks/useActiveSection"
 import Button from "../common/Button"
@@ -32,6 +33,17 @@ export default function BuilderWorkspace({
 }: BuilderWorkspaceProps) {
   // Register scroll spy
   useActiveSection(builderSections, onViewChange, scrollTargetRef)
+
+  const [microProjectPhase, setMicroProjectPhase] = useState<number>(0)
+  const [remediatedPhases, setRemediatedPhases] = useState<Record<number, boolean>>({})
+
+  const handleRemediateFromDetector = (phaseIndex: number) => {
+    setMicroProjectPhase(phaseIndex)
+  }
+
+  const handlePhaseCompletedInProject = (phaseIndex: number) => {
+    setRemediatedPhases((prev) => ({ ...prev, [phaseIndex]: true }))
+  }
 
   const targetRole = fromGrower
     ? "MLOps Engineer"
@@ -82,10 +94,18 @@ export default function BuilderWorkspace({
       <SkillTreeOverlay targetRole={targetRole} />
 
       {/* 02. Stuck Detector */}
-      <StuckDetector />
+      <StuckDetector
+        activeMicroProjectPhase={microProjectPhase}
+        remediatedPhases={remediatedPhases}
+        onRemediate={handleRemediateFromDetector}
+      />
 
       {/* 03. Micro-Project */}
-      <MicroProject />
+      <MicroProject
+        externalPhaseIndex={microProjectPhase}
+        onPhaseChange={(phase) => setMicroProjectPhase(phase)}
+        onPhaseCompleted={handlePhaseCompletedInProject}
+      />
 
       {/* 04. Trail Matching */}
       <TrailMatching />

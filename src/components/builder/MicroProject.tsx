@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 
 // ==========================================
 // Types
@@ -1379,8 +1379,18 @@ function RefreshIcon({ className = "w-4 h-4" }: { className?: string }) {
 // ==========================================
 // Main MicroProject Component
 // ==========================================
-export default function MicroProject() {
-  // 1. State Management: Local React useState as specified
+interface MicroProjectProps {
+  externalPhaseIndex?: number
+  onPhaseChange?: (phaseIndex: number) => void
+  onPhaseCompleted?: (phaseIndex: number) => void
+}
+
+export default function MicroProject({
+  externalPhaseIndex,
+  onPhaseChange,
+  onPhaseCompleted,
+}: MicroProjectProps = {}) {
+  // 1. State Management
   const [selectedProjectId, setSelectedProjectId] = useState<string>("churn-predictor")
   const [activePhaseIndex, setActivePhaseIndex] = useState<number>(0)
   const [workspaceTab, setWorkspaceTab] = useState<"code" | "telemetry" | "outcome">("code")
@@ -1395,6 +1405,18 @@ export default function MicroProject() {
     "nlp-sentiment:nlp-t1": true,
     "employee-attrition:ea-t1": true,
   })
+
+  // Sync external phase change if triggered by remediation
+  useEffect(() => {
+    if (externalPhaseIndex !== undefined && externalPhaseIndex >= 0 && externalPhaseIndex <= 3) {
+      setActivePhaseIndex(externalPhaseIndex)
+    }
+  }, [externalPhaseIndex])
+
+  const handleSelectPhase = (index: number) => {
+    setActivePhaseIndex(index)
+    onPhaseChange?.(index)
+  }
 
   // Selected Project Resolution
   const selectedProject = useMemo(() => {
@@ -1431,6 +1453,11 @@ export default function MicroProject() {
     (phaseCompletedTaskCount / (phaseTotalTaskCount || 1)) * 100
   )
 
+  // Code lines for IDE editor
+  const codeLines = useMemo(() => {
+    return activePhase.codeSnippet.trimEnd().split("\n")
+  }, [activePhase.codeSnippet])
+
   // Toggle individual task
   const toggleTask = (taskId: string) => {
     const key = `${selectedProject.id}:${taskId}`
@@ -1450,6 +1477,7 @@ export default function MicroProject() {
       ...prev,
       ...updates,
     }))
+    onPhaseCompleted?.(activePhaseIndex)
   }
 
   // Reset tasks for the selected project
@@ -1467,7 +1495,7 @@ export default function MicroProject() {
     setTimeout(() => {
       setIsSimulating(false)
       markPhaseComplete()
-    }, 1300)
+    }, 1200)
   }
 
   // Copy code snippet to clipboard
@@ -1482,215 +1510,169 @@ export default function MicroProject() {
   return (
     <section
       id="micro-project"
-      className="builder-feature-section relative text-[#eeeadf]"
+      className="builder-feature-section relative"
       style={{ scrollMarginTop: "135px" }}
     >
       {/* ======================================================== */}
-      {/* 1. Header & Context Heading                             */}
+      {/* 1. Section Heading                                       */}
       {/* ======================================================== */}
-      <div className="builder-section-heading mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-[#2d674f]/40 pb-6">
+      <div className="builder-section-heading mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-[var(--line)] pb-5">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-[#20503d]/70 text-[#d8ed8b] border border-[#2d674f]">
-              <SparkleIcon className="w-3 h-3 text-[#b7db43]" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-[var(--forest-900)] text-white">
+              <SparkleIcon className="w-3 h-3 text-[var(--lime-300)]" />
               03 · Close Ranked Gap · Live DS Sandbox
             </span>
-            <span className="text-xs text-[#819c87]">|</span>
-            <span className="text-[11px] text-[#b8c8b8] font-medium tracking-wide">
-              Hackathon Data Science Hub
+            <span className="text-xs text-[var(--muted)]">|</span>
+            <span className="text-[11px] text-[var(--muted)] font-medium tracking-wide">
+              Proof-of-Work Studio
             </span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-serif font-normal text-gray-900 tracking-tight">
-            Data Science Micro-Project Hub
+          <h2 className="text-3xl md:text-4xl font-serif text-[var(--forest-950)] tracking-tight">
+            Data Science Micro-Project
           </h2>
-          <p className="text-sm text-[#b8c8b8] mt-1.5 max-w-2xl leading-relaxed">
-            Select a project derived from our hackathon datasets, execute 4 real-world data science phases, and verify code comprehension with live progress tracking.
+          <p className="text-xs text-[var(--muted)] mt-1.5 max-w-2xl leading-relaxed">
+            Execute real-world data science phases against production datasets. Complete tasks, run verified simulations, and anchor evidence for hiring review.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex flex-col items-end">
-            <span className="text-[10px] uppercase tracking-wider text-[#819c87]">Global Proof-of-Work</span>
-            <span className="text-xs font-semibold text-[#d8ed8b]">
+          <div className="flex flex-col items-end">
+            <span className="text-[10px] uppercase tracking-wider text-[var(--muted)] font-semibold">
+              Global Proof-of-Work
+            </span>
+            <span className="text-xs font-semibold text-[var(--forest-800)] bg-[#eef7ee] px-2.5 py-0.5 rounded-full border border-[#cbe4cf]">
               {projectCompletedTaskCount} of {projectTotalTaskCount} tasks verified ({projectProgressPercent}%)
             </span>
           </div>
-          <span className="builder-demo-label light inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase text-[#e8b77f] border border-[#c58c53]/40 bg-[#163c2e]/60">
+          <span className="builder-demo-label light">
             Self-Contained Workspace
           </span>
         </div>
       </div>
 
       {/* ======================================================== */}
-      {/* 2. Project Selection Grid (4 Real-World Projects)       */}
+      {/* 2. Clean 4-Project Switcher Grid (NO Scrollbar Overflow) */}
       {/* ======================================================== */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#819c87]">
-            Select Data Science Project ({DATA_SCIENCE_PROJECTS.length} Datasets Available)
-          </span>
-          <span className="text-[11px] text-[#819c87]">
-            Click any project to switch interactive roadmap
-          </span>
-        </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mb-4">
+        {DATA_SCIENCE_PROJECTS.map((proj) => {
+          const isSelected = proj.id === selectedProjectId
+          const projTasks = proj.phases.flatMap((p) => p.tasks)
+          const completedCount = projTasks.filter(
+            (t) => completedTasks[`${proj.id}:${t.id}`]
+          ).length
+          const totalCount = projTasks.length
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          {DATA_SCIENCE_PROJECTS.map((proj) => {
-            const isSelected = proj.id === selectedProjectId
-            const projTasks = proj.phases.flatMap((p) => p.tasks)
-            const completedCount = projTasks.filter(
-              (t) => completedTasks[`${proj.id}:${t.id}`]
-            ).length
-            const totalCount = projTasks.length
-            const percent = Math.round((completedCount / (totalCount || 1)) * 100)
-
-            return (
-              <button
-                type="button"
-                key={proj.id}
-                onClick={() => {
-                  setSelectedProjectId(proj.id)
-                  setActivePhaseIndex(0)
-                }}
-                className={`group relative text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
-                  isSelected
-                    ? "bg-[#163c2e] border-[#b7db43] shadow-lg shadow-[#102b22]/70 ring-1 ring-[#b7db43]/40"
-                    : "bg-[#102b22]/90 border-[#2d674f]/50 hover:bg-[#163c2e]/70 hover:border-[#819c87]/60"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span
-                      className={`text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full border ${proj.paradigmBadge.bg} ${proj.paradigmBadge.border} ${proj.paradigmBadge.text}`}
-                    >
-                      {proj.paradigm}
-                    </span>
-                    {isSelected && (
-                      <span className="w-2 h-2 rounded-full bg-[#b7db43] animate-pulse" />
-                    )}
-                  </div>
-
-                  <h3 className="text-sm font-semibold text-white group-hover:text-[#d8ed8b] transition-colors leading-snug line-clamp-2">
-                    {proj.title}
-                  </h3>
-                  <p className="text-[11px] text-[#819c87] mt-1 line-clamp-2 leading-relaxed">
-                    {proj.subtitle}
-                  </p>
+          return (
+            <button
+              key={proj.id}
+              type="button"
+              onClick={() => {
+                setSelectedProjectId(proj.id)
+                handleSelectPhase(0)
+              }}
+              className={`p-3 rounded-xl border text-left transition-all duration-150 cursor-pointer flex flex-col justify-between ${
+                isSelected
+                  ? "bg-[var(--forest-900)] text-white border-[var(--forest-950)] shadow-sm"
+                  : "bg-[var(--white)] text-[var(--ink)] border-[var(--line)] hover:border-[var(--forest-700)] hover:bg-[#faf8f3]"
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between gap-1 mb-1">
+                  <span
+                    className={`text-[9px] uppercase font-mono font-semibold px-1.5 py-0.5 rounded ${
+                      isSelected
+                        ? "bg-white/20 text-[var(--lime-300)]"
+                        : "bg-[var(--sage-100)] text-[var(--forest-800)]"
+                    }`}
+                  >
+                    {proj.paradigm.split(" ")[0]}
+                  </span>
+                  <span
+                    className={`text-[10px] font-mono ${
+                      isSelected ? "text-[var(--lime-300)]" : "text-[var(--muted)]"
+                    }`}
+                  >
+                    {completedCount}/{totalCount}
+                  </span>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-[#2d674f]/40">
-                  <div className="flex items-center justify-between text-[10px] text-[#b8c8b8] mb-1.5">
-                    <span>Progress</span>
-                    <span className="font-semibold text-white">
-                      {completedCount}/{totalCount} ({percent}%)
-                    </span>
-                  </div>
-                  {/* Progress Bar */}
-                  <div className="w-full h-1.5 bg-[#0a1713] rounded-full overflow-hidden">
-                    <div
-                      className={`h-full transition-all duration-300 rounded-full ${
-                        percent === 100
-                          ? "bg-[#b7db43]"
-                          : isSelected
-                          ? "bg-[#c58c53]"
-                          : "bg-[#2d674f]"
-                      }`}
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
-
-                  {/* Tech stack badges */}
-                  <div className="flex flex-wrap gap-1 mt-2.5">
-                    {proj.techStack.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-[9px] px-1.5 py-0.5 rounded bg-[#20503d]/60 text-[#b8c8b8] font-mono"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {proj.techStack.length > 3 && (
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#20503d]/40 text-[#819c87] font-mono">
-                        +{proj.techStack.length - 3}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </button>
-            )
-          })}
-        </div>
+                <strong className="block text-xs font-semibold leading-snug line-clamp-1 mt-1">
+                  {proj.title}
+                </strong>
+              </div>
+            </button>
+          )
+        })}
       </div>
 
       {/* ======================================================== */}
-      {/* 3. Active Project Brief & Metadata Strip                 */}
+      {/* 3. Active Project Brief & Metadata (Clean Light Card)    */}
       {/* ======================================================== */}
-      <div className="mb-6 p-5 rounded-2xl bg-[#102b22] border border-[#2d674f]/70 shadow-md">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#2d674f]/40">
+      <div className="mb-5 p-4 rounded-xl bg-[var(--white)] border border-[var(--line)] shadow-xs">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-[var(--line)]">
           <div>
-            <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-[#c58c53]/20 text-[#e8b77f] border border-[#c58c53]/40">
-                Primary Gap Focus
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[var(--warm-light)] text-[#81552e]">
+                Ranked Gap Focus
               </span>
-              <span className="text-xs font-semibold text-white">
+              <span className="text-xs font-semibold text-[var(--forest-950)]">
                 {selectedProject.rankedGap}
               </span>
             </div>
-            <h3 className="text-xl font-serif text-white flex items-center gap-2">
+            <h3 className="text-xl font-serif text-[var(--forest-950)]">
               {selectedProject.title}
-              <span className="text-xs font-sans font-normal text-[#819c87]">
-                ({selectedProject.datasetStats})
-              </span>
             </h3>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="px-3 py-1.5 rounded-lg bg-[#163c2e] border border-[#2d674f] text-left">
-              <span className="block text-[9px] uppercase tracking-wider text-[#819c87]">Est. Commitment</span>
-              <strong className="text-xs font-semibold text-white">{selectedProject.expectedTime}</strong>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="px-3 py-1.5 rounded-lg bg-[var(--ivory)] border border-[var(--line)] text-left">
+              <span className="block text-[8px] uppercase tracking-wider text-[var(--muted)]">Commitment</span>
+              <strong className="text-xs font-semibold text-[var(--forest-950)]">{selectedProject.expectedTime}</strong>
             </div>
-            <div className="px-3 py-1.5 rounded-lg bg-[#163c2e] border border-[#2d674f] text-left">
-              <span className="block text-[9px] uppercase tracking-wider text-[#819c87]">Deliverable</span>
-              <strong className="text-xs font-semibold text-[#d8ed8b]">{selectedProject.evidenceArtifact.split("+")[0].trim()}</strong>
+            <div className="px-3 py-1.5 rounded-lg bg-[var(--ivory)] border border-[var(--line)] text-left">
+              <span className="block text-[8px] uppercase tracking-wider text-[var(--muted)]">Artifact</span>
+              <strong className="text-xs font-semibold text-[var(--forest-800)] font-mono">{selectedProject.evidenceArtifact.split("+")[0].trim()}</strong>
             </div>
           </div>
         </div>
 
-        {/* Tech Stack Chips & Why this project */}
-        <div className="mt-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[#819c87] text-[11px] font-medium">Stack:</span>
+        <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[11px] text-[var(--muted)]">Dataset:</span>
+            <span className="font-mono text-[11px] text-[var(--forest-900)] font-medium">
+              {selectedProject.datasetName}
+            </span>
+            <span className="text-[var(--muted)] text-[10px]">({selectedProject.datasetStats})</span>
+          </div>
+          <div className="flex items-center gap-1.5 flex-wrap">
             {selectedProject.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-0.5 rounded bg-[#20503d] text-[#d8ed8b] text-[10px] font-mono border border-[#2d674f]"
+                className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--sage-100)] text-[var(--forest-800)] border border-[var(--line)]"
               >
                 {tech}
               </span>
             ))}
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] text-[#b8c8b8] max-w-xl">
-            <SparkleIcon className="w-3.5 h-3.5 text-[#e8b77f] shrink-0" />
-            <span>{selectedProject.whyThisProject}</span>
-          </div>
         </div>
       </div>
 
       {/* ======================================================== */}
-      {/* 4. Interactive 4-Phase Roadmap Timeline                  */}
+      {/* 4. Streamlined 4-Phase Stepper                           */}
       {/* ======================================================== */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#819c87]">
-            Interactive DS Pipeline Roadmap (4 Phases)
+      <div className="mb-5">
+        <div className="flex items-center justify-between mb-2 px-1">
+          <span className="text-xs font-semibold text-[var(--forest-950)] flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[var(--forest-800)]" />
+            Pipeline Progression
           </span>
-          <span className="text-[11px] text-[#b8c8b8]">
-            Phase {activePhaseIndex + 1} of 4: <strong className="text-white">{activePhase.title}</strong>
+          <span className="text-xs text-[var(--muted)]">
+            Phase {activePhaseIndex + 1} of 4: <strong className="text-[var(--forest-950)]">{activePhase.title}</strong>
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
           {selectedProject.phases.map((ph, idx) => {
             const isActive = idx === activePhaseIndex
             const completedCount = ph.tasks.filter(
@@ -1700,62 +1682,47 @@ export default function MicroProject() {
 
             return (
               <button
-                type="button"
                 key={ph.phaseNumber}
-                onClick={() => setActivePhaseIndex(idx)}
-                className={`relative text-left p-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                type="button"
+                onClick={() => handleSelectPhase(idx)}
+                className={`p-3 rounded-xl border transition-all text-left cursor-pointer flex flex-col justify-between ${
                   isActive
-                    ? "bg-[#1c4938] border-[#b7db43] ring-1 ring-[#b7db43]/40 shadow-md"
+                    ? "bg-[var(--white)] border-[var(--forest-800)] ring-2 ring-[var(--forest-800)]/20 shadow-xs"
                     : isPhaseDone
-                    ? "bg-[#163c2e]/90 border-[#2d674f] hover:bg-[#1c4938]/60"
-                    : "bg-[#102b22] border-[#2d674f]/50 hover:bg-[#163c2e]/60"
+                    ? "bg-[var(--white)] border-[var(--forest-700)]/40 hover:bg-[#faf8f3]"
+                    : "bg-[var(--white)] border-[var(--line)] hover:bg-[#faf8f3]"
                 }`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span
-                      className={`text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded ${
-                        isActive
-                          ? "bg-[#b7db43] text-[#102b22]"
-                          : isPhaseDone
-                          ? "bg-[#20503d] text-[#b7db43]"
-                          : "bg-[#20503d]/60 text-[#819c87]"
-                      }`}
-                    >
-                      PHASE 0{ph.phaseNumber}
-                    </span>
-
-                    {isPhaseDone ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] text-[#b7db43] font-semibold">
-                        <CheckIcon className="w-3.5 h-3.5" />
-                        Done
-                      </span>
-                    ) : (
-                      <span className="text-[10px] text-[#819c87]">
-                        {completedCount}/{ph.tasks.length} tasks
-                      </span>
-                    )}
-                  </div>
-
-                  <strong
-                    className={`block text-xs font-semibold leading-snug ${
-                      isActive ? "text-white" : "text-[#d5dfd3]"
+                <div className="flex items-center justify-between gap-1 mb-1">
+                  <span
+                    className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                      isActive
+                        ? "bg-[var(--forest-800)] text-white"
+                        : isPhaseDone
+                        ? "bg-[#eaf5ee] text-[#18533b]"
+                        : "bg-[var(--sage-100)] text-[var(--muted)]"
                     }`}
                   >
-                    {ph.title}
-                  </strong>
-                  <p className="text-[10px] text-[#819c87] mt-1 line-clamp-1">
-                    {ph.subtitle}
-                  </p>
+                    PHASE 0{ph.phaseNumber}
+                  </span>
+                  <span className="text-[10px] font-mono">
+                    {isPhaseDone ? (
+                      <span className="text-[#18533b] font-semibold flex items-center gap-1">
+                        <CheckIcon className="w-3 h-3" /> Done
+                      </span>
+                    ) : (
+                      <span className="text-[var(--muted)]">{completedCount}/{ph.tasks.length} tasks</span>
+                    )}
+                  </span>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between pt-2 border-t border-[#2d674f]/40">
-                  <span className="text-[9px] font-mono text-[#b8c8b8] truncate">
-                    {ph.fileName}
-                  </span>
-                  {isActive && (
-                    <ArrowRightIcon className="w-3.5 h-3.5 text-[#b7db43] shrink-0" />
-                  )}
+                <strong className="block text-xs font-semibold text-[var(--forest-950)] leading-snug line-clamp-1 mt-1">
+                  {ph.title}
+                </strong>
+
+                <div className="mt-2 pt-1.5 border-t border-[var(--line)] flex items-center justify-between text-[10px] font-mono text-[var(--muted)]">
+                  <span className="truncate max-w-[130px]">{ph.fileName}</span>
+                  {isActive && <span className="text-[var(--forest-800)] font-semibold">Active →</span>}
                 </div>
               </button>
             )
@@ -1764,69 +1731,70 @@ export default function MicroProject() {
       </div>
 
       {/* ======================================================== */}
-      {/* 5. Main Workspace Layout (Workspace + Task Checklist)    */}
+      {/* 5. Two-Column Workbench Layout: Workspace + Checklist    */}
       {/* ======================================================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Side (8 cols): Workspace (Code, Telemetry, Outcome) */}
-        <div className="lg:col-span-8 flex flex-col gap-4">
-          {/* Workspace Tabs Header */}
-          <div className="p-3.5 rounded-2xl bg-[#102b22] border border-[#2d674f] flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-1.5 bg-[#0a1713] p-1 rounded-xl border border-[#2d674f]/40">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        {/* Left Side (8 cols): IDE Editor / Telemetry / Deliverable */}
+        <div className="lg:col-span-8 flex flex-col rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--white)] shadow-xs">
+          {/* Unified IDE Header Toolbar */}
+          <div className="px-4 py-2.5 bg-[var(--ivory)] border-b border-[var(--line)] flex flex-wrap items-center justify-between gap-2.5">
+            {/* Editor Workspace Tabs */}
+            <div className="flex items-center gap-1 bg-[var(--white)] p-1 rounded-xl border border-[var(--line)]">
               <button
                 type="button"
                 onClick={() => setWorkspaceTab("code")}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                   workspaceTab === "code"
-                    ? "bg-[#20503d] text-white shadow-sm"
-                    : "text-[#819c87] hover:text-[#eeeadf]"
+                    ? "bg-[var(--forest-900)] text-white shadow-xs"
+                    : "text-[var(--muted)] hover:text-[var(--ink)]"
                 }`}
               >
-                <CodeIcon className="w-3.5 h-3.5 text-[#b7db43]" />
-                Simulated Code Pipeline
+                <CodeIcon className="w-3.5 h-3.5" />
+                Code Pipeline
               </button>
               <button
                 type="button"
                 onClick={() => setWorkspaceTab("telemetry")}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                   workspaceTab === "telemetry"
-                    ? "bg-[#20503d] text-white shadow-sm"
-                    : "text-[#819c87] hover:text-[#eeeadf]"
+                    ? "bg-[var(--forest-900)] text-white shadow-xs"
+                    : "text-[var(--muted)] hover:text-[var(--ink)]"
                 }`}
               >
-                <DatabaseIcon className="w-3.5 h-3.5 text-[#e8b77f]" />
-                Dataset Telemetry & Outputs
+                <DatabaseIcon className="w-3.5 h-3.5" />
+                Dataset Telemetry
               </button>
               <button
                 type="button"
                 onClick={() => setWorkspaceTab("outcome")}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                   workspaceTab === "outcome"
-                    ? "bg-[#20503d] text-white shadow-sm"
-                    : "text-[#819c87] hover:text-[#eeeadf]"
+                    ? "bg-[var(--forest-900)] text-white shadow-xs"
+                    : "text-[var(--muted)] hover:text-[var(--ink)]"
                 }`}
               >
-                <ChartIcon className="w-3.5 h-3.5 text-[#d8ed8b]" />
+                <ChartIcon className="w-3.5 h-3.5" />
                 Deliverable & Artifact
               </button>
             </div>
 
-            {/* Quick Actions (Run Simulation & Copy) */}
+            {/* IDE Action Buttons */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={handleCopyCode}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#163c2e] hover:bg-[#20503d] text-[#d5dfd3] border border-[#2d674f] transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--white)] hover:bg-[var(--sage-100)] text-[var(--ink)] border border-[var(--line)] transition-all cursor-pointer shadow-xs"
                 title="Copy current phase Python script"
               >
                 {copiedCode ? (
                   <>
-                    <CheckIcon className="w-3.5 h-3.5 text-[#b7db43]" />
-                    <span className="text-[#b7db43]">Copied!</span>
+                    <CheckIcon className="w-3.5 h-3.5 text-[#18533b]" />
+                    <span className="text-[#18533b] font-semibold">Copied!</span>
                   </>
                 ) : (
                   <>
                     <CopyIcon className="w-3.5 h-3.5" />
-                    <span>Copy Code</span>
+                    <span>Copy</span>
                   </>
                 )}
               </button>
@@ -1835,7 +1803,7 @@ export default function MicroProject() {
                 type="button"
                 onClick={handleRunSimulation}
                 disabled={isSimulating}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#b7db43] hover:bg-[#c6ea4d] text-[#102b22] shadow-sm transition-all cursor-pointer disabled:opacity-60"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--forest-800)] hover:bg-[var(--forest-900)] text-white shadow-xs transition-all cursor-pointer disabled:opacity-60"
               >
                 {isSimulating ? (
                   <>
@@ -1844,7 +1812,7 @@ export default function MicroProject() {
                   </>
                 ) : (
                   <>
-                    <PlayIcon className="w-3.5 h-3.5" />
+                    <PlayIcon className="w-3.5 h-3.5 text-[var(--lime-300)]" />
                     <span>Run Simulation</span>
                   </>
                 )}
@@ -1854,41 +1822,51 @@ export default function MicroProject() {
 
           {/* Tab 1: Simulated Code Pipeline */}
           {workspaceTab === "code" && (
-            <div className="rounded-2xl bg-[#0a1713] border border-[#2d674f] overflow-hidden shadow-xl">
-              {/* Terminal Window Header */}
-              <div className="px-4 py-2.5 bg-[#102b22] border-b border-[#2d674f]/60 flex items-center justify-between">
+            <div className="flex flex-col bg-[#121a15]">
+              {/* Window Bar */}
+              <div className="px-4 py-2 bg-[#17221b] border-b border-[#23332a] flex items-center justify-between text-xs font-mono text-[#8aab97]">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-[#e06c75]/80 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-[#e5c07b]/80 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-[#98c379]/80 inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#e06c75]/90 inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#e5c07b]/90 inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#98c379]/90 inline-block" />
                   </div>
-                  <span className="text-xs font-mono text-[#b8c8b8] ml-2 font-medium">
+                  <span className="text-white ml-2 font-medium">
                     {activePhase.fileName}
                   </span>
                 </div>
-
-                <div className="flex items-center gap-2 text-[10px] text-[#819c87]">
-                  <span className="font-mono">Python 3.11</span>
+                <div className="flex items-center gap-2 text-[10px]">
+                  <span>Python 3.11</span>
                   <span>•</span>
                   <span>Phase {activePhase.phaseNumber} / 4</span>
                 </div>
               </div>
 
-              {/* Code Content */}
-              <div className="p-4 overflow-x-auto font-mono text-xs leading-relaxed text-[#d5dfd3] bg-[#0c1c16]">
-                <pre className="m-0 whitespace-pre">
-                  <code>{activePhase.codeSnippet}</code>
-                </pre>
+              {/* Code Content with Line Numbers */}
+              <div className="font-mono text-xs leading-relaxed overflow-x-auto p-4 bg-[#0e1511] text-[#e0ede5] max-h-[460px]">
+                <table className="w-full border-collapse">
+                  <tbody>
+                    {codeLines.map((line, idx) => (
+                      <tr key={idx} className="hover:bg-[#15211b] transition-colors">
+                        <td className="pr-4 py-0.5 text-right text-[11px] text-[#4d705f] select-none font-mono align-top w-8">
+                          {idx + 1}
+                        </td>
+                        <td className="py-0.5 font-mono whitespace-pre text-[#e0ede5]">
+                          {line || " "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
               {/* Bottom Execution Status Banner */}
-              <div className="px-4 py-2.5 bg-[#102b22]/90 border-t border-[#2d674f]/50 flex items-center justify-between text-[11px]">
-                <div className="flex items-center gap-2 text-[#819c87]">
-                  <span className="inline-block w-2 h-2 rounded-full bg-[#b7db43]" />
-                  <span>Interactive simulation ready. Run simulation or check tasks to track verification.</span>
+              <div className="px-4 py-2 bg-[#17221b] border-t border-[#23332a] flex items-center justify-between text-[11px]">
+                <div className="flex items-center gap-2 text-[#8aab97]">
+                  <span className="inline-block w-2 h-2 rounded-full bg-[var(--lime-400)]" />
+                  <span>Sandbox environment ready · Click Run Simulation to execute</span>
                 </div>
-                <span className="text-[10px] text-[#d8ed8b] font-mono">
+                <span className="text-[10px] text-[var(--lime-300)] font-mono">
                   Target: {activePhase.title}
                 </span>
               </div>
@@ -1897,24 +1875,24 @@ export default function MicroProject() {
 
           {/* Tab 2: Dataset Telemetry & Outputs */}
           {workspaceTab === "telemetry" && (
-            <div className="flex flex-col gap-4">
+            <div className="p-4 flex flex-col gap-4 bg-[var(--white)]">
               {/* Metrics Summary Strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {activePhase.metrics.map((m) => (
                   <div
                     key={m.label}
-                    className="p-3.5 rounded-xl bg-[#102b22] border border-[#2d674f] flex flex-col justify-between"
+                    className="p-3 rounded-xl bg-[var(--ivory)] border border-[var(--line)] flex flex-col justify-between"
                   >
-                    <span className="text-[10px] uppercase tracking-wider text-[#819c87]">
+                    <span className="text-[10px] uppercase tracking-wider text-[var(--muted)]">
                       {m.label}
                     </span>
-                    <strong className="text-lg font-serif text-white my-1">
+                    <strong className="text-base font-serif text-[var(--forest-950)] my-1">
                       {m.value}
                     </strong>
                     {m.change && (
                       <span
                         className={`text-[10px] font-medium ${
-                          m.isGood ? "text-[#b7db43]" : "text-[#e8b77f]"
+                          m.isGood ? "text-[#18533b]" : "text-[#81552e]"
                         }`}
                       >
                         {m.change}
@@ -1925,33 +1903,33 @@ export default function MicroProject() {
               </div>
 
               {/* Data Table / Schema Inspector */}
-              <div className="rounded-2xl bg-[#102b22] border border-[#2d674f] p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-sm font-semibold text-white flex items-center gap-2">
-                    <DatabaseIcon className="w-4 h-4 text-[#e8b77f]" />
+              <div className="rounded-xl bg-[var(--ivory)] border border-[var(--line)] p-3.5">
+                <div className="flex items-center justify-between mb-2.5">
+                  <h4 className="text-xs font-semibold text-[var(--forest-950)] flex items-center gap-2">
+                    <DatabaseIcon className="w-3.5 h-3.5 text-[#81552e]" />
                     {activePhase.datasetTelemetry.title}
                   </h4>
-                  <span className="text-[11px] text-[#819c87] font-mono">
+                  <span className="text-[10px] text-[var(--muted)] font-mono">
                     {selectedProject.datasetName}
                   </span>
                 </div>
 
-                <div className="divide-y divide-[#2d674f]/40 border border-[#2d674f]/60 rounded-xl overflow-hidden bg-[#0c1c16]">
+                <div className="divide-y divide-[var(--line)] border border-[var(--line)] rounded-lg overflow-hidden bg-[var(--white)]">
                   {activePhase.datasetTelemetry.rows.map((row) => (
                     <div
                       key={row.key}
-                      className="px-3.5 py-2.5 flex items-center justify-between text-xs"
+                      className="px-3 py-2 flex items-center justify-between text-xs"
                     >
-                      <span className="font-mono text-[#b8c8b8]">{row.key}</span>
-                      <strong className="font-mono text-[#d8ed8b]">{row.value}</strong>
+                      <span className="font-mono text-[var(--muted)]">{row.key}</span>
+                      <strong className="font-mono text-[var(--forest-900)]">{row.value}</strong>
                     </div>
                   ))}
                 </div>
 
                 {/* Simulated Pipeline Log */}
-                <div className="mt-3.5 p-3 rounded-xl bg-[#0a1713] border border-[#2d674f]/60 font-mono text-[11px] text-[#819c87] flex items-start gap-2">
-                  <span className="text-[#b7db43] font-bold">➜</span>
-                  <span className="text-[#d5dfd3]">
+                <div className="mt-3 p-2.5 rounded-lg bg-[var(--white)] border border-[var(--line)] font-mono text-[11px] text-[var(--forest-900)] flex items-start gap-2">
+                  <span className="text-[var(--forest-800)] font-bold">➜</span>
+                  <span className="text-[var(--ink)]">
                     {activePhase.datasetTelemetry.logMessage}
                   </span>
                 </div>
@@ -1961,90 +1939,90 @@ export default function MicroProject() {
 
           {/* Tab 3: Deliverable & Expected Outcome */}
           {workspaceTab === "outcome" && (
-            <div className="rounded-2xl bg-[#102b22] border border-[#2d674f] p-5 flex flex-col gap-4">
-              <div className="flex items-center gap-2 pb-3 border-b border-[#2d674f]/50">
-                <span className="p-2 rounded-xl bg-[#20503d] text-[#b7db43]">
-                  <SparkleIcon className="w-5 h-5" />
+            <div className="p-4 flex flex-col gap-4 bg-[var(--white)]">
+              <div className="flex items-center gap-2 pb-2.5 border-b border-[var(--line)]">
+                <span className="p-1.5 rounded-lg bg-[var(--warm-light)] text-[#81552e]">
+                  <SparkleIcon className="w-4 h-4" />
                 </span>
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#819c87]">
+                  <span className="text-[10px] uppercase tracking-wider text-[var(--muted)]">
                     Phase {activePhase.phaseNumber} Proof-of-Work Target
                   </span>
-                  <h4 className="text-lg font-serif text-white">
+                  <h4 className="text-sm font-semibold text-[var(--forest-950)]">
                     {activePhase.expectedOutcome.headline}
                   </h4>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-[#163c2e] border border-[#2d674f]">
-                  <strong className="block text-xs uppercase tracking-wider text-[#e8b77f] mb-1.5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="p-3.5 rounded-xl bg-[var(--ivory)] border border-[var(--line)]">
+                  <strong className="block text-xs uppercase tracking-wider text-[#81552e] mb-1">
                     Engineering Deliverable
                   </strong>
-                  <p className="text-xs text-[#d5dfd3] leading-relaxed">
+                  <p className="text-xs text-[var(--ink)] leading-relaxed">
                     {activePhase.expectedOutcome.deliverable}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#163c2e] border border-[#2d674f]">
-                  <strong className="block text-xs uppercase tracking-wider text-[#b7db43] mb-1.5">
+                <div className="p-3.5 rounded-xl bg-[var(--ivory)] border border-[var(--line)]">
+                  <strong className="block text-xs uppercase tracking-wider text-[var(--forest-800)] mb-1">
                     Industry Business Value
                   </strong>
-                  <p className="text-xs text-[#d5dfd3] leading-relaxed">
+                  <p className="text-xs text-[var(--ink)] leading-relaxed">
                     {activePhase.expectedOutcome.businessValue}
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#0c1c16] border border-[#2d674f] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-[var(--ivory)] border border-[var(--line)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#819c87]">Full Evidence Artifact</span>
-                  <strong className="block text-white font-mono mt-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Full Evidence Artifact</span>
+                  <strong className="block text-[var(--forest-950)] font-mono mt-0.5">
                     {selectedProject.evidenceArtifact}
                   </strong>
                 </div>
                 <button
                   type="button"
                   onClick={markPhaseComplete}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#20503d] hover:bg-[#2d674f] text-[#d8ed8b] border border-[#2d674f] font-semibold text-xs transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--forest-800)] hover:bg-[var(--forest-900)] text-white font-semibold text-xs transition-colors cursor-pointer shrink-0"
                 >
-                  Confirm Phase Completion
+                  Confirm Phase Completion ✓
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Right Side (4 cols): Interactive Task Checklist & Progress Tracking */}
+        {/* Right Side (4 cols): Interactive Task Checklist & Verification */}
         <aside className="lg:col-span-4 flex flex-col gap-4">
-          <div className="p-5 rounded-2xl bg-[#102b22] border border-[#2d674f] shadow-lg flex flex-col gap-4">
-            {/* Checklist Header & Progress */}
+          <div className="p-5 rounded-2xl bg-[var(--white)] border border-[var(--line)] shadow-xs flex flex-col gap-4">
+            {/* Checklist Header */}
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-[#819c87]">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]">
                   Phase {activePhase.phaseNumber} Verification
                 </span>
-                <span className="text-xs font-mono font-bold text-[#b7db43]">
+                <span className="text-xs font-mono font-bold text-[var(--forest-800)]">
                   {phaseProgressPercent}%
                 </span>
               </div>
-              <h4 className="text-base font-serif text-white">
+              <h4 className="text-base font-serif text-[var(--forest-950)]">
                 Task Checklist ({phaseCompletedTaskCount}/{phaseTotalTaskCount})
               </h4>
 
-              {/* Animated Progress Bar */}
-              <div className="w-full h-2 bg-[#0a1713] rounded-full overflow-hidden mt-3">
+              {/* Progress Track */}
+              <div className="w-full h-1.5 bg-[var(--sage-100)] rounded-full overflow-hidden mt-2">
                 <div
                   className={`h-full transition-all duration-300 rounded-full ${
-                    phaseProgressPercent === 100 ? "bg-[#b7db43]" : "bg-[#c58c53]"
+                    phaseProgressPercent === 100 ? "bg-[var(--forest-800)]" : "bg-[var(--warm)]"
                   }`}
                   style={{ width: `${phaseProgressPercent}%` }}
                 />
               </div>
             </div>
 
-            {/* Checklist Items */}
-            <div className="flex flex-col gap-2 pt-2 border-t border-[#2d674f]/40">
+            {/* Task Items */}
+            <div className="flex flex-col gap-2 pt-2 border-t border-[var(--line)]">
               {activePhase.tasks.map((task) => {
                 const isChecked = Boolean(
                   completedTasks[`${selectedProject.id}:${task.id}`]
@@ -2052,40 +2030,42 @@ export default function MicroProject() {
 
                 return (
                   <button
-                    type="button"
                     key={task.id}
+                    type="button"
                     onClick={() => toggleTask(task.id)}
-                    className={`w-full text-left p-3 rounded-xl border transition-all duration-150 cursor-pointer flex items-start gap-3 ${
+                    className={`w-full text-left p-3 rounded-xl border transition-all duration-150 cursor-pointer flex items-start gap-2.5 ${
                       isChecked
-                        ? "bg-[#163c2e] border-[#b7db43]/60 shadow-sm"
-                        : "bg-[#0c1c16] border-[#2d674f]/40 hover:bg-[#163c2e]/60 hover:border-[#819c87]/50"
+                        ? "bg-[#f3f8f4] border-[#c4e3cd] shadow-xs"
+                        : "bg-[var(--white)] border-[var(--line)] hover:border-[var(--forest-700)]/50 hover:bg-[#faf8f3]"
                     }`}
                   >
-                    {/* Custom Checkbox circle */}
+                    {/* Checkbox Circle */}
                     <div
-                      className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                      className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                         isChecked
-                          ? "bg-[#b7db43] border-[#b7db43] text-[#102b22]"
-                          : "border-[#819c87] bg-transparent"
+                          ? "bg-[var(--forest-800)] border-[var(--forest-800)] text-white"
+                          : "border-[var(--muted)] bg-transparent"
                       }`}
                     >
-                      {isChecked && <CheckIcon className="w-3.5 h-3.5 stroke-[2]" />}
+                      {isChecked && <CheckIcon className="w-3 h-3 stroke-[2.5]" />}
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-1">
                         <strong
-                          className={`text-xs font-semibold leading-snug ${
-                            isChecked ? "text-white line-through opacity-80" : "text-[#eeeadf]"
+                          className={`text-xs font-medium leading-snug ${
+                            isChecked
+                              ? "text-[var(--muted)] line-through"
+                              : "text-[var(--forest-950)]"
                           }`}
                         >
                           {task.title}
                         </strong>
-                        <span className="text-[9px] font-mono text-[#819c87] shrink-0">
+                        <span className="text-[9px] font-mono text-[var(--muted)] shrink-0">
                           {task.timeEst}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#819c87] mt-0.5 leading-relaxed">
+                      <p className="text-[11px] text-[var(--muted)] mt-0.5 leading-relaxed">
                         {task.description}
                       </p>
                     </div>
@@ -2094,32 +2074,32 @@ export default function MicroProject() {
               })}
             </div>
 
-            {/* Quick Batch Actions */}
-            <div className="flex items-center justify-between pt-2 border-t border-[#2d674f]/40 text-xs">
+            {/* Batch Controls */}
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--line)] text-xs">
               <button
                 type="button"
                 onClick={markPhaseComplete}
-                className="text-[11px] text-[#b7db43] hover:underline font-semibold cursor-pointer"
+                className="text-[11px] text-[var(--forest-800)] hover:underline font-semibold cursor-pointer"
               >
-                Mark phase done
+                Mark phase done ✓
               </button>
               <button
                 type="button"
                 onClick={resetProjectTasks}
-                className="text-[11px] text-[#819c87] hover:text-[#e8b77f] cursor-pointer"
+                className="text-[11px] text-[var(--muted)] hover:text-[var(--warm)] cursor-pointer"
               >
-                Reset project tasks
+                Reset tasks ↺
               </button>
             </div>
 
-            {/* Why This Project Insight Pill */}
-            <div className="p-3.5 rounded-xl bg-[#163c2e] border border-[#2d674f] flex items-start gap-2.5 text-xs text-[#b8c8b8]">
-              <SparkleIcon className="w-4 h-4 text-[#e8b77f] shrink-0 mt-0.5" />
+            {/* Verified Evidence Pill */}
+            <div className="p-3.5 rounded-xl bg-[var(--warm-light)] border border-[#ebd8c1] flex items-start gap-2.5 text-xs text-[#81552e]">
+              <SparkleIcon className="w-4 h-4 text-[#81552e] shrink-0 mt-0.5" />
               <div>
-                <strong className="block text-white text-[11px] font-semibold mb-0.5">
-                  Verified Evidence Outcome
+                <strong className="block text-[var(--forest-950)] text-[11px] font-semibold mb-0.5">
+                  Verified Evidence
                 </strong>
-                <span>
+                <span className="text-[11px] leading-relaxed">
                   Completing all 4 phases verifies {selectedProject.rankedGap.toLowerCase()} and produces tangible Proof-of-Work telemetry.
                 </span>
               </div>
@@ -2127,11 +2107,11 @@ export default function MicroProject() {
 
             {/* Overall Project Completion Badge */}
             {projectProgressPercent === 100 && (
-              <div className="p-3.5 rounded-xl bg-[#b7db43]/10 border border-[#b7db43] text-center animate-fade-in">
-                <span className="text-xs font-semibold text-[#b7db43] block">
+              <div className="p-3 rounded-xl bg-[#eaf5ee] border border-[#a3d4b2] text-center animate-fade-in">
+                <span className="text-xs font-semibold text-[#18533b] block">
                   🎉 All 4 Phases Verified!
                 </span>
-                <span className="text-[10px] text-[#d5dfd3] mt-0.5 block">
+                <span className="text-[10px] text-[var(--muted)] mt-0.5 block">
                   Your evidence artifact is ready for hiring and college telemetry audit.
                 </span>
               </div>
