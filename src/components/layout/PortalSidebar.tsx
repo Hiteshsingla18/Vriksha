@@ -50,7 +50,7 @@ export default function PortalSidebar({
         <p className="text-[11px] text-slate-500 leading-snug mb-3">Complete skills and move closer to your dream role.</p>
         <div className="flex items-center gap-2 mb-3">
           <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full bg-[#10b981] rounded-full w-[70%]" />
+            <div className="h-full bg-[#52b788] rounded-full w-[70%]" />
           </div>
           <span className="text-[11px] font-mono font-bold text-slate-700">70%</span>
         </div>
@@ -60,7 +60,7 @@ export default function PortalSidebar({
             const el = document.getElementById("tree-overlay")
             if (el) el.scrollIntoView({ behavior: "smooth" })
           }}
-          className="text-[11px] font-semibold text-slate-700 hover:text-emerald-700 flex items-center gap-1.5 transition-colors cursor-pointer group"
+          className="text-[11px] font-semibold text-slate-700 hover:text-[#2d855a] flex items-center gap-1.5 transition-colors cursor-pointer group"
         >
           <span>View Learning Plan</span>
           <span className="group-hover:translate-x-0.5 transition-transform">→</span>

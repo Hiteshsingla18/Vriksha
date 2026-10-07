@@ -300,7 +300,7 @@ export default function LivingSkillTree({
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
         <div>
           <div className="text-[11px] uppercase tracking-widest text-[#72c29c] font-bold mb-1.5 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#52b788] animate-pulse" />
             {cardLabel}
           </div>
           <Heading level={2}>{title}</Heading>
@@ -474,7 +474,7 @@ export default function LivingSkillTree({
                   </linearGradient>
 
                   <linearGradient id="sap-pulse" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.8" />
+                    <stop offset="0%" stopColor="#52b788" stopOpacity="0.8" />
                     <stop offset="50%" stopColor="#34d399" stopOpacity="0.4" />
                     <stop offset="100%" stopColor="#059669" stopOpacity="0" />
                   </linearGradient>
@@ -514,7 +514,7 @@ export default function LivingSkillTree({
                   <path
                     d="M 480 575 C 430 600, 350 625, 250 640"
                     fill="none"
-                    stroke="#10b981"
+                    stroke="#52b788"
                     strokeWidth="1.5"
                     strokeDasharray="4 6"
                     className="animate-pulse opacity-60"
@@ -522,7 +522,7 @@ export default function LivingSkillTree({
                   <path
                     d="M 480 575 C 530 600, 610 625, 710 640"
                     fill="none"
-                    stroke="#10b981"
+                    stroke="#52b788"
                     strokeWidth="1.5"
                     strokeDasharray="4 6"
                     className="animate-pulse opacity-60"
@@ -641,7 +641,7 @@ export default function LivingSkillTree({
                           isSelected
                             ? "#55ea9d"
                             : isLit
-                            ? "#10b981"
+                            ? "#52b788"
                             : isPriority
                             ? "#f59e0b"
                             : "#224c32"
@@ -755,7 +755,7 @@ export default function LivingSkillTree({
                             isHighlighted
                               ? "#ffffff"
                               : isLit
-                              ? "#10b981"
+                              ? "#52b788"
                               : isPriority
                               ? "#f59e0b"
                               : "#234c34"
@@ -1004,7 +1004,7 @@ export default function LivingSkillTree({
           <div className="relative z-20 flex flex-wrap items-center justify-between gap-4 px-6 py-3 border-t border-[#173322]/70 bg-[#07130b]/90 text-xs text-[#87a593]">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] shadow-[0_0_6px_#10b981]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#52b788] shadow-[0_0_6px_#52b788]" />
                 Lit & Verified Skills ({telemetry.lit_leaves_count})
               </span>
               <span className="flex items-center gap-1.5">

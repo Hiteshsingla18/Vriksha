@@ -209,7 +209,7 @@ export default function CompanySkillTree({
 
             {/* Target Role Dropdown Capsule */}
             <div className="px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/90 text-xs font-semibold text-slate-800 flex items-center gap-2 cursor-pointer shadow-2xs transition-colors">
-              <span className="w-5 h-5 rounded bg-[#10b981] flex items-center justify-center text-white text-[10px] shadow-2xs">
+              <span className="w-5 h-5 rounded bg-[#52b788] flex items-center justify-center text-white text-[10px] shadow-2xs">
                 🏢
               </span>
               <span>Enterprise {targetRole} Blueprint</span>
@@ -224,7 +224,7 @@ export default function CompanySkillTree({
               onClick={toggleAll}
               className={`px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all shadow-2xs ${
                 activeFilter === "all"
-                  ? "bg-[#10b981] text-white"
+                  ? "bg-[#5ec290] text-white"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
@@ -236,11 +236,11 @@ export default function CompanySkillTree({
               onClick={() => setActiveFilter(activeFilter === "lit" ? "all" : "lit")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all flex items-center gap-1.5 ${
                 activeFilter === "lit"
-                  ? "bg-emerald-100 text-emerald-900 border border-emerald-300 font-semibold"
+                  ? "bg-emerald-100 text-emerald-900 border border-[#a7ddbf] font-semibold"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/70"
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-[#10b981]" />
+              <span className="w-2 h-2 rounded-full bg-[#52b788]" />
               <span>In-House Strength ({litCount})</span>
             </button>
 
@@ -398,7 +398,7 @@ export default function CompanySkillTree({
 
                     const strokeColor =
                       sub.state === "lit"
-                        ? "#10b981"
+                        ? "#52b788"
                         : sub.state === "priority"
                         ? "#f59e0b"
                         : "#94a3b8"
@@ -444,12 +444,12 @@ export default function CompanySkillTree({
                   }}
                   className={`absolute z-10 px-4 py-2 rounded-full bg-white shadow-sm border transition-all duration-300 cursor-pointer flex items-center gap-2.5 group hover:scale-105 select-none ${
                     isExpanded
-                      ? "border-emerald-500 ring-4 ring-emerald-500/20 shadow-md"
-                      : "border-slate-200/90 hover:border-emerald-400"
+                      ? "border-[#52b788] ring-4 ring-[#52b788]/20 shadow-md"
+                      : "border-slate-200/90 hover:border-[#52b788]"
                   }`}
                   aria-label={`${cat.label} category pill`}
                 >
-                  <span className="w-7 h-7 rounded-full bg-[#10b981] flex items-center justify-center text-white flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
+                  <span className="w-7 h-7 rounded-full bg-[#52b788] flex items-center justify-center text-white flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                     {renderIcon(cat.icon)}
                   </span>
 
@@ -500,7 +500,7 @@ export default function CompanySkillTree({
                       isSelected
                         ? "border-slate-800 ring-2 ring-slate-800/20 shadow-md scale-105"
                         : sub.state === "lit"
-                        ? "border-emerald-300 text-slate-800"
+                        ? "border-[#a7ddbf] text-slate-800"
                         : sub.state === "priority"
                         ? "border-amber-300 text-slate-800"
                         : "border-slate-200 text-slate-600"
@@ -509,7 +509,7 @@ export default function CompanySkillTree({
                     <span
                       className={`w-2 h-2 rounded-full flex-shrink-0 ${
                         sub.state === "lit"
-                          ? "bg-[#10b981]"
+                          ? "bg-[#52b788]"
                           : sub.state === "priority"
                           ? "bg-[#f59e0b]"
                           : "bg-[#94a3b8]"
@@ -526,7 +526,7 @@ export default function CompanySkillTree({
             {/* ========================================================
                 8. BASE FOUNDATION PILL (Sitting on the Grassy Hill)
                 ======================================================== */}
-            <div className="absolute left-1/2 bottom-5 -translate-x-1/2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-emerald-300 shadow-2xs text-xs font-semibold text-emerald-950 flex items-center gap-2 whitespace-nowrap z-20 select-none">
+            <div className="absolute left-1/2 bottom-5 -translate-x-1/2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-[#a7ddbf] shadow-2xs text-xs font-semibold text-[#1b4933] flex items-center gap-2 whitespace-nowrap z-20 select-none">
               <span>Workforce Foundation · Verified Internal Baseline (Backend Services, SQL, Core APIs)</span>
             </div>
           </div>
@@ -538,7 +538,7 @@ export default function CompanySkillTree({
             <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-slate-600 mt-1">
               <div className="flex items-center gap-4 flex-wrap">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#52b788]" />
                   <span className="text-[11px] font-medium text-slate-700">In-House Verified (5)</span>
                 </span>
                 <span className="flex items-center gap-1.5">
@@ -699,7 +699,7 @@ export default function CompanySkillTree({
               CARD 3: Strategic Takeaway
               -------------------------------------------------------- */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs">
-            <div className="flex items-center gap-2 mb-2 text-[#10b981]">
+            <div className="flex items-center gap-2 mb-2 text-[#52b788]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 20V10" />
                 <path d="M12 20V4" />
