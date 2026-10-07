@@ -172,3 +172,56 @@ class TreeOverlayResponse(BaseModel):
     branches: List[TreeBranchSchema]
     telemetry: Dict[str, Any]
 
+# --- TELEMETRY & STUCK DIAGNOSIS SCHEMAS ---
+
+from enum import Enum
+
+class SeniorityTier(str, Enum):
+    JUNIOR_ANALYST = "Junior Analyst"
+    DATA_ANALYST = "Data Analyst"
+    DATA_SCIENTIST = "Data Scientist"
+    SENIOR_DATA_SCIENTIST = "Senior Data Scientist"
+    DATA_ARCHITECT = "Data Architect"
+
+class CompetencyDimension(str, Enum):
+    MATHS_STATS = "maths_stats"
+    CODING = "coding"
+    AI_ML = "ai_ml"
+    DASHBOARD_STORYTELLING = "dashboard_storytelling"
+    BIG_DATA = "big_data"
+
+class StuckArchetype(str, Enum):
+    NOMINAL = "nominal"
+    DATA_LEAKAGE_DEADLOCK = "data_leakage_deadlock"
+    UNVECTORIZED_BOTTLENECK = "unvectorized_bottleneck"
+    SHAPE_ALIGNMENT_BLOCK = "shape_alignment_block"
+    PANIC_THRASHING = "panic_thrashing"
+
+class TelemetryEvent(BaseModel):
+    user_id: str
+    task_id: str
+    target_role: SeniorityTier = SeniorityTier.DATA_SCIENTIST
+    code_snippet: str = ""
+    stderr: str = ""
+    exit_code: int = 0
+    execution_time_ms: float = 0.0
+
+class MicroIntervention(BaseModel):
+    action_title: str
+    diagnostic_rationale: str
+    remediation_hint: str
+    code_pattern_diff: str
+    estimated_resolution_mins: int
+
+class StuckDiagnosisResponse(BaseModel):
+    user_id: str
+    task_id: str
+    is_stuck: bool
+    stuck_severity: float
+    stuck_archetype: StuckArchetype
+    impacted_dimension: CompetencyDimension
+    consecutive_failures: int
+    salary_spread_at_risk_lpa: float
+    intervention: Optional[MicroIntervention] = None
+
+
