@@ -1,0 +1,4 @@
+{
+  "/api/career-data/route": "app/api/career-data/route.js",
+  "/page": "app/page.js"
+}
