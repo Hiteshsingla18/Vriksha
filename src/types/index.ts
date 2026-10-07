@@ -37,13 +37,39 @@ export interface PortalSection {
   view: number
 }
 
+export interface VirtualLabScenario {
+  type?: "scenario" | "security" | "law" | "engineering" | "medical"
+  title: string
+  description: string
+  question: string
+  options: string[]
+  answer: number
+}
+
+export interface CareerRoomTask {
+  title: string
+  description: string
+}
+
 export interface CareerRoom {
+  id?: string
   field: string
   title: string
   time: string
   description: string
   task: string
   skills: string[]
+  icon?: string
+  category?: string
+  focus?: string[]
+  workOverview?: string[]
+  trends?: string[]
+  tools?: string[]
+  halfLife?: string
+  careerRunway?: string
+  growth?: string[]
+  tasks?: CareerRoomTask[]
+  lab?: VirtualLabScenario
 }
 
 export interface ExplorerProfile {

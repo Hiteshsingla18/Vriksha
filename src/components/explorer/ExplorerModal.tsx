@@ -2,8 +2,8 @@ import { CareerRoom, ExplorerProfile } from "../../types"
 import Button from "../common/Button"
 import Heading from "../common/Heading"
 import Icon from "../common/Icon"
-import ProgressBar from "../common/ProgressBar"
 import SkillChip from "../common/SkillChip"
+import CareerRoomDetail from "./CareerRoomDetail"
 
 interface ExplorerModalProps {
   selectedRoom: CareerRoom | null
@@ -36,62 +36,19 @@ export default function ExplorerModal({
         }}
       >
         <div
-          className="explorer-modal-card"
+          className="explorer-modal-card explorer-room-detail-modal"
           role="dialog"
           aria-modal="true"
           aria-labelledby="room-title"
+          style={{
+            maxWidth: "1150px",
+            width: "95vw",
+            maxHeight: "92vh",
+            overflowY: "auto",
+            padding: "24px 32px",
+          }}
         >
-          <button
-            type="button"
-            className="modal-close"
-            onClick={onCloseRoom}
-            aria-label="Close Career Room"
-          >
-            <Icon name="close" size={16} />
-          </button>
-          <span className="demo-label">Career Room · Interactive prototype</span>
-          <div className="career-domain">{selectedRoom.field}</div>
-          <Heading level={2}>
-            <span id="room-title">{selectedRoom.title}</span>
-          </Heading>
-          <p>{selectedRoom.description}</p>
-
-          <div className="room-detail-grid">
-            <div>
-              <small>What you will do</small>
-              <strong>{selectedRoom.task}</strong>
-            </div>
-            <div>
-              <small>Estimated time</small>
-              <strong>{selectedRoom.time}</strong>
-            </div>
-          </div>
-
-          <div className="field-detail-group">
-            <strong>Skills being observed</strong>
-            <div className="chip-row">
-              {selectedRoom.skills.map((skill) => (
-                <SkillChip key={skill} tone="sage">
-                  {skill}
-                </SkillChip>
-              ))}
-            </div>
-          </div>
-
-          {roomStarted ? (
-            <div className="room-started-state" role="status">
-              <Icon name="check" size={18} />
-              <div>
-                <strong>Career Room started</strong>
-                <p className="m-0 text-xs text-[var(--forest-800)]">Prototype checkpoint 1 of 3 is ready.</p>
-              </div>
-              <ProgressBar value={33} tone="lime" className="w-full mt-2" />
-            </div>
-          ) : (
-            <Button icon="arrow" onClick={onStartRoom} className="mt-4">
-              Start Career Room
-            </Button>
-          )}
+          <CareerRoomDetail room={selectedRoom} onBack={onCloseRoom} />
         </div>
       </div>
     )

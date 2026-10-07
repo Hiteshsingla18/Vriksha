@@ -23,10 +23,24 @@ export default function CareerRooms({ onSelectRoom }: CareerRoomsProps) {
         {explorerRooms.map((room, index) => (
           <article className="career-room-card" key={room.title}>
             <div className="career-room-top">
-              <span>0{index + 1}</span>
-              <SkillChip tone={index === 0 ? "lime" : "sage"}>
-                {room.time}
-              </SkillChip>
+              <span className="flex items-center gap-1.5 font-bold">
+                {room.icon && (
+                  <span className="text-[var(--forest-800)] font-mono text-sm">
+                    {room.icon}
+                  </span>
+                )}
+                <span>0{index + 1}</span>
+              </span>
+              <div className="flex items-center gap-1.5">
+                {room.lab && (
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[rgba(32,80,61,0.08)] text-[var(--forest-800)] font-semibold border border-[rgba(32,80,61,0.18)]">
+                    ⌘ Virtual Lab
+                  </span>
+                )}
+                <SkillChip tone={index === 0 ? "lime" : "sage"}>
+                  {room.time}
+                </SkillChip>
+              </div>
             </div>
             <div className="career-domain">{room.field}</div>
             <Heading level={3}>{room.title}</Heading>
@@ -36,7 +50,8 @@ export default function CareerRooms({ onSelectRoom }: CareerRoomsProps) {
               className="career-room-enter"
               onClick={() => onSelectRoom(room)}
             >
-              Enter room <Icon name="arrow" size={15} />
+              <span>Step into work slice</span>
+              <Icon name="arrow" size={15} />
             </button>
           </article>
         ))}
