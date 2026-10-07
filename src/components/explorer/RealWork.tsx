@@ -7,25 +7,32 @@ export default function RealWork() {
 
   const workScenarios = [
     {
-      role: "Product Designer",
+      role: "Data Scientist",
       situation:
-        "You receive a complaint that users cannot find the checkout button.",
+        "A business stakeholder asks you to guarantee 99% accuracy on a customer churn model before checking class imbalance.",
       question:
-        "You need to trace the friction, speak to users and test a clearer screen.",
+        "You need to explain precision/recall trade-offs, design an ROC-AUC benchmark, and align on realistic business ROI.",
     },
     {
-      role: "Data Analyst",
+      role: "Big Data Engineer",
       situation:
-        "Two teams have different explanations for why customer sign-ups fell.",
+        "At 2 AM, the nocturnal batch ETL pipeline fails due to an unexpected null byte in an upstream Kafka event stream.",
       question:
-        "You need to inspect the data, test assumptions and explain what changed.",
+        "You need to inspect the dead-letter queue, patch the PySpark schema inference, and re-trigger without duplicating rows.",
     },
     {
-      role: "Cybersecurity Analyst",
+      role: "BI & Analytics Consultant",
       situation:
-        "An unusual login appears just before an important client presentation.",
+        "Two department heads present conflicting revenue numbers for the exact same quarter from two separate dashboards.",
       question:
-        "You need to judge the risk quickly without interrupting legitimate work.",
+        "You need to audit the underlying SQL joins, isolate duplicate transaction attribution, and unify the metric logic.",
+    },
+    {
+      role: "MLOps Platform Lead",
+      situation:
+        "The GPU cloud bill doubled over the weekend because an unquantized deep learning model was deployed with no autoscale limits.",
+      question:
+        "You need to profile memory consumption, implement INT8 quantization, and establish strict rate-limiting policies.",
     },
   ]
 

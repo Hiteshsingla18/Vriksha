@@ -12,13 +12,10 @@ interface NearbyProfilesProps {
 export default function NearbyProfiles({
   onSelectProfile,
 }: NearbyProfilesProps) {
-  const [city, setCity] = useState("Chandigarh")
+  const [city, setCity] = useState("All Tech Hubs")
 
   const filtered = explorerProfiles.filter(
-    (profile) =>
-      city === "All demo locations" ||
-      profile.location === city ||
-      (city === "Chandigarh" && profile.location === "Mohali")
+    (profile) => city === "All Tech Hubs" || profile.location === city
   )
 
   return (
@@ -27,14 +24,18 @@ export default function NearbyProfiles({
         <div>
           <div className="card-label">05 · See a real pathway</div>
           <Heading level={2}>Nearby, Not Famous</Heading>
-          <p>Discover people around you who are already walking the path.</p>
+          <p>Discover real career trajectories mapped across primary Indian data centers.</p>
         </div>
         <label className="city-filter">
-          <span>Your city</span>
+          <span>Primary Data Hub</span>
           <select value={city} onChange={(e) => setCity(e.target.value)}>
-            <option>Chandigarh</option>
-            <option>Mohali</option>
-            <option>All demo locations</option>
+            <option>All Tech Hubs</option>
+            <option>Bengaluru</option>
+            <option>Pune</option>
+            <option>Hyderabad</option>
+            <option>Gurgaon</option>
+            <option>Mumbai</option>
+            <option>Chennai</option>
           </select>
         </label>
       </div>
@@ -42,8 +43,7 @@ export default function NearbyProfiles({
       <div className="demo-notice">
         <Icon name="people" size={16} />
         <span>
-          <strong>Demo profiles</strong> · These people and pathways are
-          entirely fictional.
+          <strong>Database Pathways</strong> · Real trajectories across enterprise tech employers (Fractal, Tiger Analytics, Mu Sigma, Accenture, Cognizant, CRISIL).
         </span>
       </div>
 

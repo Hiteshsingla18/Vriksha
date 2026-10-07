@@ -4,6 +4,18 @@ import {
   ExplorerProfile,
   PortalSection,
 } from "../types"
+import datasetSearchIndex from "./datasetSearchIndex.json"
+
+export interface SearchResultItem {
+  query: string
+  matchCount: number
+  avgSalaryLpa: number
+  salaryRange: string
+  topCities: string[]
+  topSkills: string[]
+}
+
+export const datasetIndex: Record<string, SearchResultItem> = datasetSearchIndex
 
 export const explorerSections: PortalSection[] = [
   { label: "Career Rooms", id: "career-rooms", view: 0 },
@@ -16,168 +28,183 @@ export const explorerSections: PortalSection[] = [
 
 export const explorerRooms: CareerRoom[] = [
   {
-    field: "Cybersecurity",
-    title: "Find the Intrusion",
+    field: "AI & Machine Learning",
+    title: "Diagnose the Model Drift",
     time: "45 min",
     description:
-      "Inspect a small set of system signals and decide which activity needs attention.",
+      "A production customer churn model drops 14% in F1-score after an ingestion schema shift. Inspect feature distributions and isolate the covariate drift.",
     task:
-      "Review login patterns, flag suspicious behaviour and explain the evidence behind your decision.",
-    skills: ["Pattern recognition", "Risk judgement", "Attention to detail"],
+      "Inspect feature drift telemetry, verify whether degradation is covariate or concept shift, and design the retrain pipeline trigger.",
+    skills: ["Covariate Drift Analysis", "Feature Distributions", "Scikit-Learn Telemetry"],
   },
   {
-    field: "Sales",
-    title: "Spot the Real Insight",
+    field: "Big Data Engineering",
+    title: "Untangle the Streaming Bottleneck",
     time: "40 min",
     description:
-      "Turn a messy customer conversation into a clear next step without overpromising.",
+      "A PySpark structured streaming job lags behind Kafka partition offsets during peak evening telemetry. Inspect shuffle skew and optimize resource partitions.",
     task:
-      "Read a discovery call summary, identify the real need and prepare a thoughtful follow-up.",
-    skills: ["Listening", "Communication", "Commercial thinking"],
+      "Inspect shuffle read skew, identify the straggler partition, and repartition the streaming window without OOMing the executors.",
+    skills: ["Apache Spark", "Kafka Offsets", "Distributed Memory Sizing"],
   },
   {
-    field: "Product Design",
-    title: "Fix the Broken Screen",
+    field: "Analytics & BI Storytelling",
+    title: "Causal Deck for the Board",
     time: "35 min",
     description:
-      "Find why a familiar task feels difficult and improve the flow for the user.",
+      "User acquisition is up 40% but revenue per cohort is flat. Dissect the SQL telemetry, locate the leakage, and craft an executive-ready causal narrative.",
     task:
-      "Review a checkout screen, locate the friction and propose a more understandable interaction.",
-    skills: ["Empathy", "Visual reasoning", "Problem framing"],
+      "Query cohort retention metrics, isolate drop-offs across new trial tiers, and draft the 3-point board takeaway with clean visual proofs.",
+    skills: ["SQL Cohort Analysis", "Executive Storytelling", "Causal Business Framing"],
   },
   {
-    field: "Finance",
-    title: "Catch the Anomaly",
+    field: "Data Software & Cloud",
+    title: "Optimize the Slow SQL Join",
+    time: "40 min",
+    description:
+      "A daily analytical aggregation query across 40M rows times out during nocturnal pipeline runs. Profile the execution plan and fix the cartesian join.",
+    task:
+      "Analyze the EXPLAIN query plan, replace redundant cartesian joins with window functions, and optimize the warehouse indexing strategy.",
+    skills: ["Query Plan Profiling", "SQL Window Functions", "Index Optimization"],
+  },
+  {
+    field: "Applied Statistics & Maths",
+    title: "Evaluate the A/B Experiment",
+    time: "35 min",
+    description:
+      "A product squad claims an experimental model variation boosted user engagement by 3.2%. Verify sample variance and determine true significance.",
+    task:
+      "Calculate standard error, verify p-value and confidence intervals, and advise leadership whether to roll out or discard the false positive.",
+    skills: ["Hypothesis Testing", "Statistical Significance", "P-Value & Confidence Intervals"],
+  },
+  {
+    field: "MLOps & Production Systems",
+    title: "Triage LLM Hallucinations",
     time: "50 min",
     description:
-      "Investigate a simple financial report and find the number that does not belong.",
+      "An enterprise RAG system produces confident inaccuracies on internal docs. Inspect chunk retrieval cosine similarity and calibrate threshold bounds.",
     task:
-      "Compare monthly figures, identify the unusual movement and write a short explanation.",
-    skills: ["Numeracy", "Analysis", "Evidence-based reasoning"],
-  },
-  {
-    field: "Healthcare",
-    title: "Read the Chart",
-    time: "30 min",
-    description:
-      "Organise a patient snapshot and notice which information deserves a closer look.",
-    task:
-      "Review a fictional chart, prioritise the relevant details and prepare a concise handover.",
-    skills: ["Careful observation", "Prioritisation", "Clear communication"],
+      "Inspect vector embedding retrieval scores, tune cosine thresholds, and engineer ground-truth guardrails into the prompt template.",
+    skills: ["Vector Similarity Evaluation", "Chunk Calibration", "RAG Prompt Guardrails"],
   },
 ]
 
 export const explorerProfiles: ExplorerProfile[] = [
   {
-    name: "Aarav",
-    role: "Data Analyst",
-    location: "Chandigarh",
-    years: "3 years",
+    name: "Aarav Singhal",
+    role: "Senior Data Scientist",
+    location: "Bengaluru",
+    years: "5 years",
     pathway:
-      "Commerce degree → Excel projects → junior reporting role → data analyst",
-    skills: ["SQL", "Data visualisation", "Business questions"],
+      "Mathematics Degree → Python & SQL Projects → Junior Data Analyst → Senior Data Scientist (Fractal Analytics)",
+    skills: ["Python", "Machine Learning", "PyTorch", "Feature Engineering"],
   },
   {
-    name: "Priya",
-    role: "Product Designer",
-    location: "Mohali",
+    name: "Meera Krishnan",
+    role: "Big Data Engineer",
+    location: "Pune",
     years: "4 years",
     pathway:
-      "Psychology degree → community research → design bootcamp → product designer",
-    skills: ["User research", "Prototyping", "Visual design"],
+      "Computer Science → Database Administrator → PySpark & Hadoop Pipelines → Big Data Lead (Tiger Analytics)",
+    skills: ["Apache Spark", "Hadoop", "Kafka", "Data Modeling"],
   },
   {
-    name: "Rohan",
-    role: "Cybersecurity Analyst",
-    location: "Chandigarh",
-    years: "2 years",
+    name: "Kavita Reddy",
+    role: "Analytics & BI Specialist",
+    location: "Hyderabad",
+    years: "3 years",
     pathway:
-      "Computer applications → home lab → security internship → analyst",
-    skills: ["Networks", "Threat analysis", "Incident response"],
+      "Economics Graduate → Excel & SQL Reporting → Tableau Certification → BI Storyteller (Mu Sigma)",
+    skills: ["SQL", "Tableau", "PowerBI", "Executive Dashboards"],
+  },
+  {
+    name: "Aditya Verma",
+    role: "MLOps Engineer",
+    location: "Gurgaon",
+    years: "4 years",
+    pathway:
+      "Backend Python Developer → Docker & Cloud Deployments → MLflow Integration → MLOps Lead (Accenture AI Labs)",
+    skills: ["Docker", "FastAPI", "Kubernetes", "Model Drift Telemetry"],
+  },
+  {
+    name: "Neha Nair",
+    role: "Quantitative Analyst",
+    location: "Mumbai",
+    years: "6 years",
+    pathway:
+      "Statistics Degree → Actuarial Science → Financial Time-Series → Lead Risk Modeler (CRISIL)",
+    skills: ["Applied Statistics", "R", "Time-Series", "Risk Modeling"],
+  },
+  {
+    name: "Vikram Patel",
+    role: "Cloud Data Platform Engineer",
+    location: "Chennai",
+    years: "3 years",
+    pathway:
+      "IT Engineering → Cloud Certifications → Airflow ETL Pipelines → Cloud Data Architect (Cognizant)",
+    skills: ["AWS", "Airflow", "Snowflake", "Python"],
   },
 ]
 
 export const explorerFields: ExplorerField[] = [
   {
-    name: "Technology",
+    name: "AI & Machine Learning",
     status: "Growing",
-    height: 88,
-    overview: "Build and improve digital products, platforms and services.",
-    roles: ["Software Developer", "Cloud Engineer", "Product Manager"],
-    skills: ["Systems thinking", "Programming", "Collaboration"],
-    related: ["Data", "Cybersecurity", "Design"],
-  },
-  {
-    name: "Design",
-    status: "Steady",
-    height: 68,
+    height: 96,
     overview:
-      "Understand people and turn complex needs into useful experiences.",
-    roles: ["Product Designer", "Service Designer", "Design Researcher"],
-    skills: ["Research", "Prototyping", "Communication"],
-    related: ["Technology", "Marketing", "Healthcare"],
+      "Extract non-linear patterns, train deep neural networks, and deploy intelligent agents that adapt in real time.",
+    roles: ["Data Scientist", "Machine Learning Engineer", "NLP Specialist", "Deep Learning Researcher"],
+    skills: ["Python", "PyTorch", "Scikit-learn", "Deep Learning", "NLP", "Feature Engineering"],
+    related: ["Big Data & Distributed Systems", "Applied Statistics & Maths", "MLOps & Production Systems"],
   },
   {
-    name: "Finance",
-    status: "Steady",
-    height: 72,
-    overview:
-      "Use evidence and judgement to understand money, risk and performance.",
-    roles: ["Financial Analyst", "Risk Associate", "Fintech Strategist"],
-    skills: ["Numeracy", "Analysis", "Commercial awareness"],
-    related: ["Data", "Technology", "Marketing"],
-  },
-  {
-    name: "Healthcare",
+    name: "Big Data & Distributed Systems",
     status: "Growing",
+    height: 90,
+    overview:
+      "Architect high-throughput data backbones, distributed clusters, and real-time streaming engines across millions of records.",
+    roles: ["Big Data Engineer", "Data Architect", "PySpark Developer", "ETL Infrastructure Lead"],
+    skills: ["Apache Spark", "Hadoop", "PySpark", "Kafka", "Hive", "Distributed Computing"],
+    related: ["AI & Machine Learning", "Data Software & Cloud", "Analytics & BI Storytelling"],
+  },
+  {
+    name: "Analytics & BI Storytelling",
+    status: "Steady",
     height: 82,
     overview:
-      "Improve health outcomes through care, operations, research and technology.",
-    roles: ["Clinical Researcher", "Health Data Analyst", "Care Coordinator"],
-    skills: ["Observation", "Empathy", "Decision making"],
-    related: ["Data", "Design", "Technology"],
+      "Translate high-dimensional database telemetry into causal executive dashboards and strategic business clarity.",
+    roles: ["Business Analyst", "BI Developer", "Analytics Consultant", "Product Analytics Lead"],
+    skills: ["SQL", "Tableau", "PowerBI", "SAS", "Causal Narrative", "Metric Synthesis"],
+    related: ["Applied Statistics & Maths", "Data Software & Cloud", "AI & Machine Learning"],
   },
   {
-    name: "Marketing",
-    status: "Steady",
-    height: 62,
-    overview:
-      "Understand audiences and connect useful ideas with the people they serve.",
-    roles: ["Brand Strategist", "Growth Marketer", "Content Designer"],
-    skills: ["Storytelling", "Research", "Experimentation"],
-    related: ["Design", "Data", "Sales"],
-  },
-  {
-    name: "Engineering",
-    status: "Growing",
-    height: 78,
-    overview:
-      "Design reliable systems and solve practical problems under real constraints.",
-    roles: [
-      "Mechanical Engineer",
-      "Systems Engineer",
-      "Sustainability Engineer",
-    ],
-    skills: ["Technical reasoning", "Modelling", "Problem solving"],
-    related: ["Technology", "Data", "Healthcare"],
-  },
-  {
-    name: "Cybersecurity",
-    status: "Emerging",
-    height: 92,
-    overview:
-      "Protect people and organisations by understanding systems, threats and risk.",
-    roles: ["Security Analyst", "Threat Researcher", "Security Engineer"],
-    skills: ["Pattern recognition", "Networks", "Risk judgement"],
-    related: ["Technology", "Data", "Finance"],
-  },
-  {
-    name: "Data",
+    name: "Data Software & Cloud",
     status: "Growing",
     height: 86,
-    overview: "Turn information into questions, evidence and better decisions.",
-    roles: ["Data Analyst", "Analytics Engineer", "Data Scientist"],
-    skills: ["Statistics", "SQL", "Visual communication"],
-    related: ["Finance", "Healthcare", "Technology"],
+    overview:
+      "Build production-grade data pipelines, microservices, orchestrators, and scalable cloud data warehouses.",
+    roles: ["Data Software Engineer", "Cloud Data Architect", "Pipeline Engineer", "Database Specialist"],
+    skills: ["Python", "SQL", "Airflow", "Docker", "AWS", "Snowflake / BigQuery"],
+    related: ["Big Data & Distributed Systems", "MLOps & Production Systems", "Analytics & BI Storytelling"],
+  },
+  {
+    name: "Applied Statistics & Maths",
+    status: "Steady",
+    height: 78,
+    overview:
+      "Ground business decisions in probabilistic inference, experimental design, and quantitative rigor.",
+    roles: ["Quantitative Analyst", "Statistical Modeler", "A/B Testing Scientist", "Risk Modeler"],
+    skills: ["Probability & Stats", "Linear Algebra", "A/B Testing", "Econometrics", "Hypothesis Testing"],
+    related: ["AI & Machine Learning", "Analytics & BI Storytelling", "Data Software & Cloud"],
+  },
+  {
+    name: "MLOps & Production Systems",
+    status: "Emerging",
+    height: 94,
+    overview:
+      "Bridge experimental models to resilient 24/7 production environments with automated CI/CD and drift observability.",
+    roles: ["MLOps Engineer", "ML Platform Engineer", "Model Reliability Specialist", "AI Systems Lead"],
+    skills: ["Feature Stores", "Model Drift Detection", "MLflow", "Docker", "FastAPI", "Kubernetes"],
+    related: ["AI & Machine Learning", "Big Data & Distributed Systems", "Data Software & Cloud"],
   },
 ]

@@ -10,23 +10,23 @@ export default function FamilyBrief({ onGeneratePreview }: FamilyBriefProps) {
   const briefPoints = [
     {
       label: "Skills match",
-      description: "Comfort with numbers, patterns and clear explanations.",
+      description: "Logical reasoning, curiosity with data patterns, and communicating evidence clearly.",
     },
     {
       label: "Typical work",
-      description: "Clean data, investigate questions and share findings.",
+      description: "Extract raw database telemetry, train machine learning models, and guide business decisions with verified metrics.",
     },
     {
       label: "Growth outlook",
-      description: "Illustrative view: useful across many industries.",
+      description: "High hiring velocity across major data centers (Bengaluru, Pune, Hyderabad), averaging 12–18 LPA.",
     },
     {
       label: "Learning path",
-      description: "Spreadsheets → SQL → visualisation → portfolio.",
+      description: "Python & SQL → Applied Modeling & Statistics → Distributed Systems & Production AI.",
     },
     {
       label: "Alternative paths",
-      description: "Business analysis, research and operations.",
+      description: "MLOps Platform Engineering, Big Data Architecture, Business Intelligence Consulting.",
     },
   ]
 

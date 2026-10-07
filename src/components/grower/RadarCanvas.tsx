@@ -10,7 +10,7 @@ export interface Blip {
   current_market_demand_pct: number;
   salary_hike_correlation: number;
   projected_lpa_impact: number;
-  remediation_path: str;
+  remediation_path: string;
   is_user_active?: boolean;
 }
 

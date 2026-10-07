@@ -3,13 +3,13 @@ import { RadarCanvas, Blip } from './RadarCanvas';
 import { SalarySpikeChart, TrajectoryPoint } from './SalarySpikeChart';
 
 export interface ScanResponse {
-  user_id: str;
-  role_evaluated: str;
+  user_id: string;
+  role_evaluated: string;
   market_health_score: number;
   net_potential_uplift_lpa: number;
   blips: Blip[];
   salary_curve: TrajectoryPoint[];
-  executive_summary: str;
+  executive_summary: string;
   executive_ceiling_warning?: string | null;
 }
 

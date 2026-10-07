@@ -97,7 +97,6 @@ export default function PortalPage({
 
       {id === "builder" && (
         <BuilderWorkspace
-          navigate={onNavigate}
           view={activeSub}
           onViewChange={setActiveSub}
           onGrowerHandoff={onGrowerHandoff}
@@ -112,15 +111,21 @@ export default function PortalPage({
       {id === "grower" && (
         <GrowerWorkspace
           fromBuilder={growerFromBuilder}
+          view={activeSub}
+          onViewChange={setActiveSub}
           onBuilderHandoff={onGrowerBuilderHandoff}
           onHiringHandoff={onHiringGrowerHandoff}
+          scrollTargetRef={scrollTargetRef}
         />
       )}
 
       {id === "colleges" && (
         <CollegesWorkspace
+          view={activeSub}
+          onViewChange={setActiveSub}
           onBuilderHandoff={onCollegesBuilderHandoff}
           onHiringHandoff={onCollegesHiringHandoff}
+          scrollTargetRef={scrollTargetRef}
         />
       )}
 

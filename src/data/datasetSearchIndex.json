@@ -1,0 +1,650 @@
+{
+  "data scientist": {
+    "query": "data scientist",
+    "matchCount": 394,
+    "avgSalaryLpa": 15.5,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Machine Learning",
+      "Python",
+      "Data Science",
+      "Deep Learning",
+      "Data Scientist"
+    ]
+  },
+  "data science": {
+    "query": "data science",
+    "matchCount": 364,
+    "avgSalaryLpa": 18.3,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Hyderabad"
+    ],
+    "topSkills": [
+      "Data Science",
+      "Machine Learning",
+      "data science",
+      "Python",
+      "Analytics"
+    ]
+  },
+  "machine learning": {
+    "query": "machine learning",
+    "matchCount": 813,
+    "avgSalaryLpa": 16.5,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "Machine Learning",
+      "Python",
+      "machine learning",
+      "SQL",
+      "Deep Learning"
+    ]
+  },
+  "ml": {
+    "query": "ml",
+    "matchCount": 732,
+    "avgSalaryLpa": 12.4,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Pune"
+    ],
+    "topSkills": [
+      "HTML",
+      "Javascript",
+      "CSS",
+      "XML",
+      "Java"
+    ]
+  },
+  "ai": {
+    "query": "ai",
+    "matchCount": 3181,
+    "avgSalaryLpa": 13.1,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Mumbai",
+      "Bengaluru",
+      "Delhi Ncr"
+    ],
+    "topSkills": [
+      "SAS",
+      "Analytics",
+      "Digital Marketing",
+      "SQL",
+      "Finance"
+    ]
+  },
+  "artificial intelligence": {
+    "query": "artificial intelligence",
+    "matchCount": 100,
+    "avgSalaryLpa": 16.6,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Python",
+      "Deep Learning",
+      "Analytics"
+    ]
+  },
+  "deep learning": {
+    "query": "deep learning",
+    "matchCount": 167,
+    "avgSalaryLpa": 17.0,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Hyderabad",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "Deep Learning",
+      "Machine Learning",
+      "deep learning",
+      "Python",
+      "NLP"
+    ]
+  },
+  "nlp": {
+    "query": "nlp",
+    "matchCount": 190,
+    "avgSalaryLpa": 17.9,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "NLP",
+      "Machine Learning",
+      "Python",
+      "Deep Learning",
+      "nlp"
+    ]
+  },
+  "data analyst": {
+    "query": "data analyst",
+    "matchCount": 332,
+    "avgSalaryLpa": 9.6,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Data Analysis",
+      "SQL",
+      "data analysis",
+      "Excel",
+      "Data Analyst"
+    ]
+  },
+  "analyst": {
+    "query": "analyst",
+    "matchCount": 3537,
+    "avgSalaryLpa": 9.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Business Analysis",
+      "SQL",
+      "Data Analysis",
+      "Finance",
+      "business analysis"
+    ]
+  },
+  "business analyst": {
+    "query": "business analyst",
+    "matchCount": 850,
+    "avgSalaryLpa": 12.3,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Pune"
+    ],
+    "topSkills": [
+      "Business Analysis",
+      "business analysis",
+      "Business Analyst",
+      "SQL",
+      "business analyst"
+    ]
+  },
+  "bi": {
+    "query": "bi",
+    "matchCount": 2626,
+    "avgSalaryLpa": 13.6,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "SQL",
+      "Java",
+      "Hadoop",
+      "Big Data",
+      "Spark"
+    ]
+  },
+  "power bi": {
+    "query": "power bi",
+    "matchCount": 104,
+    "avgSalaryLpa": 10.4,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Gurgaon",
+      "Bengaluru",
+      "Hyderabad"
+    ],
+    "topSkills": [
+      "Power Bi",
+      "power bi",
+      "SSIS",
+      "SQL",
+      "Tableau"
+    ]
+  },
+  "powerbi": {
+    "query": "powerbi",
+    "matchCount": 19,
+    "avgSalaryLpa": 9.1,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "power bi",
+      "SQL",
+      "Business Intelligence",
+      "Data Warehousing",
+      "PowerBI"
+    ]
+  },
+  "tableau": {
+    "query": "tableau",
+    "matchCount": 258,
+    "avgSalaryLpa": 14.2,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Tableau",
+      "tableau",
+      "SQL",
+      "SAS",
+      "sql"
+    ]
+  },
+  "big data": {
+    "query": "big data",
+    "matchCount": 541,
+    "avgSalaryLpa": 16.3,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Pune",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Big Data",
+      "Hadoop",
+      "Spark",
+      "Hive",
+      "Java"
+    ]
+  },
+  "big data engineer": {
+    "query": "big data engineer",
+    "matchCount": 40,
+    "avgSalaryLpa": 12.9,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Noida"
+    ],
+    "topSkills": [
+      "Hadoop",
+      "Hive",
+      "Spark",
+      "Java",
+      "Big Data"
+    ]
+  },
+  "spark": {
+    "query": "spark",
+    "matchCount": 343,
+    "avgSalaryLpa": 16.4,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Hyderabad",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Spark",
+      "Hadoop",
+      "Hive",
+      "Java",
+      "Python"
+    ]
+  },
+  "pyspark": {
+    "query": "pyspark",
+    "matchCount": 6,
+    "avgSalaryLpa": 11.4,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Ahmedabad",
+      "Bengaluru",
+      "Hyderabad"
+    ],
+    "topSkills": [
+      "python",
+      "PySpark",
+      "django",
+      "Pandas",
+      "Numpy"
+    ]
+  },
+  "hadoop": {
+    "query": "hadoop",
+    "matchCount": 389,
+    "avgSalaryLpa": 14.9,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Pune"
+    ],
+    "topSkills": [
+      "Hadoop",
+      "Spark",
+      "Hive",
+      "Java",
+      "Big Data"
+    ]
+  },
+  "python": {
+    "query": "python",
+    "matchCount": 1126,
+    "avgSalaryLpa": 15.0,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "Python",
+      "Machine Learning",
+      "python",
+      "Java",
+      "SQL"
+    ]
+  },
+  "sql": {
+    "query": "sql",
+    "matchCount": 1973,
+    "avgSalaryLpa": 12.9,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "SQL",
+      "Python",
+      "Java",
+      "sql",
+      "MySQL"
+    ]
+  },
+  "aws": {
+    "query": "aws",
+    "matchCount": 141,
+    "avgSalaryLpa": 15.8,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Pune"
+    ],
+    "topSkills": [
+      "AWS",
+      "Java",
+      "Python",
+      "aws",
+      "NoSQL"
+    ]
+  },
+  "cloud": {
+    "query": "cloud",
+    "matchCount": 307,
+    "avgSalaryLpa": 15.8,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Pune",
+      "Hyderabad"
+    ],
+    "topSkills": [
+      "Java",
+      "Spark",
+      "SQL",
+      "Hive",
+      "Hadoop"
+    ]
+  },
+  "data engineer": {
+    "query": "data engineer",
+    "matchCount": 120,
+    "avgSalaryLpa": 12.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Hadoop",
+      "Spark",
+      "SQL",
+      "Hive",
+      "Big Data"
+    ]
+  },
+  "statistics": {
+    "query": "statistics",
+    "matchCount": 285,
+    "avgSalaryLpa": 15.3,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Delhi Ncr",
+      "Bengaluru",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "SAS",
+      "Statistics",
+      "SQL",
+      "statistics",
+      "Machine Learning"
+    ]
+  },
+  "maths": {
+    "query": "maths",
+    "matchCount": 7,
+    "avgSalaryLpa": 12.1,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Mumbai",
+      "Kochi",
+      "Pune"
+    ],
+    "topSkills": [
+      "maths",
+      "Data Analyst",
+      "statistics",
+      "mathematics",
+      "Data Scientist"
+    ]
+  },
+  "excel": {
+    "query": "excel",
+    "matchCount": 1079,
+    "avgSalaryLpa": 10.9,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "Excel",
+      "excel",
+      "SQL",
+      "Data Analysis",
+      "Advanced Excel"
+    ]
+  },
+  "etl": {
+    "query": "etl",
+    "matchCount": 251,
+    "avgSalaryLpa": 12.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Hyderabad",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "ETL",
+      "SQL",
+      "Data Warehousing",
+      "etl",
+      "SQL Queries"
+    ]
+  },
+  "r": {
+    "query": "r",
+    "matchCount": 15778,
+    "avgSalaryLpa": 12.3,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Gurgaon"
+    ],
+    "topSkills": [
+      "SQL",
+      "Analytics",
+      "Python",
+      "Java",
+      "Finance"
+    ]
+  },
+  "docker": {
+    "query": "docker",
+    "matchCount": 45,
+    "avgSalaryLpa": 14.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Mumbai",
+      "Bengaluru",
+      "Pune"
+    ],
+    "topSkills": [
+      "Docker",
+      "Java",
+      "Ansible",
+      "MongoDB",
+      "docker"
+    ]
+  },
+  "kubernetes": {
+    "query": "kubernetes",
+    "matchCount": 5,
+    "avgSalaryLpa": 14.8,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Chandigarh",
+      "Mumbai",
+      "Chennai"
+    ],
+    "topSkills": [
+      "docker",
+      "kubernetes",
+      "aws",
+      "ansible",
+      "Docker"
+    ]
+  },
+  "nosql": {
+    "query": "nosql",
+    "matchCount": 196,
+    "avgSalaryLpa": 15.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Mumbai",
+      "Hyderabad"
+    ],
+    "topSkills": [
+      "NoSQL",
+      "Java",
+      "Spark",
+      "SQL",
+      "Hive"
+    ]
+  },
+  "mongodb": {
+    "query": "mongodb",
+    "matchCount": 108,
+    "avgSalaryLpa": 14.7,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Mumbai"
+    ],
+    "topSkills": [
+      "MongoDB",
+      "Java",
+      "Python",
+      "NoSQL",
+      "MySQL"
+    ]
+  },
+  "mysql": {
+    "query": "mysql",
+    "matchCount": 236,
+    "avgSalaryLpa": 13.1,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Pune"
+    ],
+    "topSkills": [
+      "MySQL",
+      "Python",
+      "Javascript",
+      "mysql",
+      "Java"
+    ]
+  },
+  "kafka": {
+    "query": "kafka",
+    "matchCount": 32,
+    "avgSalaryLpa": 18.8,
+    "salaryRange": "1.5\u201337.5 LPA",
+    "topCities": [
+      "Bengaluru",
+      "Gurgaon",
+      "Pune"
+    ],
+    "topSkills": [
+      "Hive",
+      "Spark",
+      "Big Data",
+      "Hadoop",
+      "Java"
+    ]
+  }
+}
