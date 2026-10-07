@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react"
+import { MarketRadarFlightDeck } from "./components/grower/MarketRadarFlightDeck"
+
 
 type PortalId = "home" | "explorer" | "builder" | "grower" | "colleges" | "hiring" | "company"
 type IconName = "search" | "bell" | "arrow" | "spark" | "grid" | "branch" | "book" | "people" | "building" | "menu" | "close" | "chevron" | "check" | "target"
@@ -3112,6 +3114,9 @@ function GrowerContent({
     return (
       <div className="grower-screen">
         {context}
+        <div className="mb-8">
+          <MarketRadarFlightDeck />
+        </div>
         <div className="mobility-map panel">
           <div className="panel-head">
             <div>

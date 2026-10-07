@@ -10,10 +10,11 @@ from app.api.v1.resumes import router as resumes_router
 from app.api.v1.audit import router as audit_router
 from app.api.v1.graph import router as graph_router
 from app.api.v1.builder import router as builder_router
+from app.api.routes_market_radar import router as grower_radar_router
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Standalone Shadow Candidate Audit Engine and Builder Portal Tree Overlay Engine for Vriksha Talent Ecosystem. Ingests candidate resumes, deconstructs JDs into 5 core dimensions, computes predictive match scores, audits rigid recruiter filters to recover shadow candidates, and renders animated Tree Overlay graphs.",
+    description="Standalone Shadow Candidate Audit Engine, Builder Portal Tree Overlay Engine, and Grower Portal Market Radar Engine for Vriksha Talent Ecosystem.",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -52,4 +53,6 @@ app.include_router(resumes_router, prefix=settings.API_V1_STR)
 app.include_router(audit_router, prefix=settings.API_V1_STR)
 app.include_router(graph_router, prefix=settings.API_V1_STR)
 app.include_router(builder_router, prefix=settings.API_V1_STR)
+app.include_router(grower_radar_router)
+
 
