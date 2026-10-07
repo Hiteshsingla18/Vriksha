@@ -116,3 +116,59 @@ class SkillGraphEdge(BaseModel):
 class SkillGraphResponse(BaseModel):
     nodes: List[SkillGraphNode]
     edges: List[SkillGraphEdge]
+
+# --- BUILDER PORTAL & TREE OVERLAY SCHEMAS ---
+
+class BuilderProfileRequest(BaseModel):
+    target_role: str = Field("Data Scientist", description="Target Data Science role designation")
+    current_experience_years: float = Field(2.0, description="Current experience in years")
+    github_url: Optional[str] = None
+    portfolio_url: Optional[str] = None
+    raw_resume_text: Optional[str] = None
+    candidate_name: Optional[str] = "Data Practitioner"
+
+class BuilderProfileResponse(BaseModel):
+    profile_id: str
+    candidate_name: str
+    target_role: str
+    current_experience_years: float
+    github_url: Optional[str]
+    portfolio_url: Optional[str]
+    extracted_skills: Dict[str, List[str]]
+    dimension_scores: CompetencyDimensions
+    leadership_resilience_index: float
+    readiness_factor_pct: float
+
+class TreeLeafSchema(BaseModel):
+    id: str
+    label: str
+    canonical_name: str
+    state: str  # "lit" | "thriving_unlit" | "steady" | "fading"
+    correlation_r: float
+    roi_hike_potential_pct: float
+    market_prevalence_pct: float
+    user_proficiency: float
+
+class TreeBranchSchema(BaseModel):
+    id: str
+    label: str
+    weight: float
+    correlation_r: float
+    user_proficiency: float
+    target_requirement: float
+    leaves: List[TreeLeafSchema]
+
+class TreeOverlayRequest(BaseModel):
+    profile_id: Optional[str] = None
+    target_role: str = "Data Scientist"
+    current_experience_years: float = 2.0
+    user_skills: Optional[List[str]] = None
+    raw_resume_text: Optional[str] = None
+
+class TreeOverlayResponse(BaseModel):
+    tree_id: str
+    target_role: str
+    role_benchmark: Dict[str, Any]
+    branches: List[TreeBranchSchema]
+    telemetry: Dict[str, Any]
+

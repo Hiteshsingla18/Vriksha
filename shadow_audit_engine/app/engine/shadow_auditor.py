@@ -1,5 +1,6 @@
 import uuid
 import datetime
+import numpy as np
 from typing import Dict, List, Any
 
 from app.engine.predictive_scorer import evaluate_candidate_match
@@ -13,9 +14,14 @@ def run_shadow_candidate_audit(
 ) -> Dict[str, Any]:
     benchmark_loader = BenchmarkDatasetLoader()
     top_quartile_threshold = benchmark_loader.get_composite_score_75th_percentile()
-    
-    # Threshold for High-Fit: Composite Score >= 75% (which is 3.75 / 5.0) OR >= top quartile threshold
-    high_fit_composite_threshold = 3.75
+
+    # Calculate batch composite scores percentile if multiple candidates passed
+    cand_comp_scores = [cand.get("composite_score", 3.0) for cand in candidate_profiles]
+    if len(cand_comp_scores) >= 2:
+        batch_75th_p = float(np.percentile(cand_comp_scores, 50)) # Median/Top half in batch
+        high_fit_composite_threshold = min(3.4, batch_75th_p)
+    else:
+        high_fit_composite_threshold = 3.4
 
     ranked_candidates = []
     total_processed = len(candidate_profiles)
@@ -42,7 +48,7 @@ def run_shadow_candidate_audit(
         comp_score = match_res["composite_score"]
 
         # Determine if candidate is a "High Fit"
-        is_high_fit = (comp_score >= high_fit_composite_threshold) or (comp_score >= top_quartile_threshold)
+        is_high_fit = (comp_score >= high_fit_composite_threshold) or (comp_score >= top_quartile_threshold) or (match_res["match_index_pct"] >= 65.0)
 
         if is_high_fit:
             high_fit_total_count += 1

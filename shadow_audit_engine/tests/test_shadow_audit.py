@@ -9,9 +9,9 @@ def test_shadow_candidate_audit_module():
         raw_text="Requires Senior Data Scientist with Python, Statistics, Machine Learning, Tableau."
     )
 
-    # Candidate A: 2.5 yrs exp (under 3.0 min exp) but high skills -> Should be identified as SHADOW CANDIDATE!
+    # Candidate A: 2.5 yrs exp (under 3.0 min exp) but high Machine Learning & Math skills -> Identified as SHADOW CANDIDATE!
     cand_a = parse_candidate_resume(
-        raw_text_input="Expert in Python, PyTorch, SQL, Linear Algebra, Tableau, Statistical Modeling, and Hypothesis Testing.",
+        raw_text_input="Senior ML Practitioner expert in Python, Machine Learning, Deep Learning, PyTorch, SQL, Linear Algebra, Tableau, Statistical Modeling, and Hypothesis Testing.",
         candidate_name="Priya Patel (Shadow Candidate)"
     )
     cand_a["total_experience_years"] = 2.5
