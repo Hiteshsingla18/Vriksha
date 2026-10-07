@@ -300,19 +300,24 @@ export default function SkillTreeOverlay({
                   <stop offset="100%" stopColor="#6b533b" />
                 </linearGradient>
 
-                {/* Fresh Spring Foliage Leaves Gradients */}
+                {/* Soft Light Green Foliage Leaves Gradients (Gentle, Natural & Theme-Aligned) */}
                 <linearGradient id="spring-leaf-1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#86efac" />
-                  <stop offset="100%" stopColor="#22c55e" />
+                  <stop offset="0%" stopColor="#dcf0da" />
+                  <stop offset="100%" stopColor="#98ce95" />
                 </linearGradient>
 
                 <linearGradient id="spring-leaf-2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4ade80" />
-                  <stop offset="100%" stopColor="#15803d" />
+                  <stop offset="0%" stopColor="#ceebcc" />
+                  <stop offset="100%" stopColor="#87c383" />
+                </linearGradient>
+
+                <linearGradient id="spring-leaf-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#e8f5e5" />
+                  <stop offset="100%" stopColor="#aedaa9" />
                 </linearGradient>
 
                 <linearGradient id="grass-mound-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#eaf7ed" />
+                  <stop offset="0%" stopColor="#edf8f0" />
                   <stop offset="100%" stopColor="#d8eedd" />
                 </linearGradient>
               </defs>
@@ -331,24 +336,24 @@ export default function SkillTreeOverlay({
                   opacity="0.6"
                 />
 
-                {/* Sprouting Grass Blades and Foliage along the hill */}
+                {/* Sprouting Grass Blades and Foliage along the hill (Soft Light Green) */}
                 {/* Left Cluster 1 */}
-                <path d="M 270 565 C 265 540 273 525 280 515 C 283 535 278 550 276 565" fill="#4ade80" opacity="0.8" />
-                <path d="M 285 570 C 295 545 310 535 320 525 C 312 545 302 560 293 570" fill="#22c55e" opacity="0.8" />
-                <circle cx="282" cy="516" r="4.5" fill="#86efac" opacity="0.9" />
+                <path d="M 270 565 C 265 540 273 525 280 515 C 283 535 278 550 276 565" fill="#a2d59e" opacity="0.85" />
+                <path d="M 285 570 C 295 545 310 535 320 525 C 312 545 302 560 293 570" fill="#87c383" opacity="0.85" />
+                <circle cx="282" cy="516" r="4.5" fill="#bce4b9" opacity="0.9" />
 
                 {/* Left Cluster 2 */}
-                <path d="M 360 550 C 355 525 365 512 372 500 C 375 520 370 535 368 550" fill="#22c55e" opacity="0.8" />
-                <path d="M 378 555 C 390 530 405 525 415 515 C 405 535 395 548 385 555" fill="#15803d" opacity="0.8" />
+                <path d="M 360 550 C 355 525 365 512 372 500 C 375 520 370 535 368 550" fill="#98ce95" opacity="0.85" />
+                <path d="M 378 555 C 390 530 405 525 415 515 C 405 535 395 548 385 555" fill="#87c383" opacity="0.85" />
 
                 {/* Right Cluster 1 */}
-                <path d="M 575 555 C 565 535 555 525 545 515 C 555 530 568 545 572 555" fill="#22c55e" opacity="0.8" />
-                <path d="M 588 550 C 595 525 588 512 582 500 C 585 520 590 535 592 550" fill="#15803d" opacity="0.8" />
+                <path d="M 575 555 C 565 535 555 525 545 515 C 555 530 568 545 572 555" fill="#98ce95" opacity="0.85" />
+                <path d="M 588 550 C 595 525 588 512 582 500 C 585 520 590 535 592 550" fill="#87c383" opacity="0.85" />
 
                 {/* Right Cluster 2 */}
-                <path d="M 665 570 C 655 545 645 535 635 525 C 648 540 658 555 662 570" fill="#4ade80" opacity="0.8" />
-                <path d="M 680 565 C 685 540 680 525 674 515 C 676 535 680 550 682 565" fill="#22c55e" opacity="0.8" />
-                <circle cx="676" cy="516" r="4.5" fill="#86efac" opacity="0.9" />
+                <path d="M 665 570 C 655 545 645 535 635 525 C 648 540 658 555 662 570" fill="#a2d59e" opacity="0.85" />
+                <path d="M 680 565 C 685 540 680 525 674 515 C 676 535 680 550 682 565" fill="#87c383" opacity="0.85" />
+                <circle cx="676" cy="516" r="4.5" fill="#bce4b9" opacity="0.9" />
               </g>
 
               {/* 2. Realistic Tree Trunk & Roots */}
@@ -412,33 +417,33 @@ export default function SkillTreeOverlay({
                 />
               </g>
 
-              {/* 4. Botanical Leaves Sprouting Naturally on Limbs */}
-              <g className="foliage-leaves">
+              {/* 4. Botanical Leaves Sprouting Naturally on Limbs (Soft Light Green Theme) */}
+              <g className="foliage-leaves" stroke="#79b375" strokeWidth="0.5" strokeOpacity="0.4">
                 {/* Leaves near AI/ML Branch */}
                 <ellipse cx="465" cy="180" rx="15" ry="7" transform="rotate(-40 465 180)" fill="url(#spring-leaf-1)" />
                 <ellipse cx="495" cy="180" rx="15" ry="7" transform="rotate(40 495 180)" fill="url(#spring-leaf-2)" />
-                <ellipse cx="450" cy="270" rx="16" ry="7.5" transform="rotate(-30 450 270)" fill="url(#spring-leaf-1)" />
+                <ellipse cx="450" cy="270" rx="16" ry="7.5" transform="rotate(-30 450 270)" fill="url(#spring-leaf-light)" />
                 <ellipse cx="510" cy="270" rx="16" ry="7.5" transform="rotate(30 510 270)" fill="url(#spring-leaf-2)" />
 
                 {/* Leaves near Math Branch */}
                 <ellipse cx="370" cy="300" rx="16" ry="7.5" transform="rotate(-45 370 300)" fill="url(#spring-leaf-2)" />
-                <ellipse cx="395" cy="285" rx="14" ry="7" transform="rotate(-20 395 285)" fill="url(#spring-leaf-1)" />
-                <ellipse cx="410" cy="330" rx="15" ry="7" transform="rotate(-70 410 330)" fill="url(#spring-leaf-2)" />
+                <ellipse cx="395" cy="285" rx="14" ry="7" transform="rotate(-20 395 285)" fill="url(#spring-leaf-light)" />
+                <ellipse cx="410" cy="330" rx="15" ry="7" transform="rotate(-70 410 330)" fill="url(#spring-leaf-1)" />
 
                 {/* Leaves near Coding Branch */}
                 <ellipse cx="550" cy="330" rx="16" ry="7.5" transform="rotate(45 550 330)" fill="url(#spring-leaf-1)" />
                 <ellipse cx="590" cy="300" rx="16" ry="7.5" transform="rotate(25 590 300)" fill="url(#spring-leaf-2)" />
-                <ellipse cx="570" cy="285" rx="14" ry="7" transform="rotate(60 570 285)" fill="url(#spring-leaf-1)" />
+                <ellipse cx="570" cy="285" rx="14" ry="7" transform="rotate(60 570 285)" fill="url(#spring-leaf-light)" />
 
                 {/* Leaves near Data Storytelling Branch */}
                 <ellipse cx="350" cy="438" rx="16" ry="7.5" transform="rotate(-15 350 438)" fill="url(#spring-leaf-2)" />
-                <ellipse cx="390" cy="445" rx="14" ry="7" transform="rotate(35 390 445)" fill="url(#spring-leaf-1)" />
-                <ellipse cx="415" cy="415" rx="15" ry="7" transform="rotate(-30 415 415)" fill="url(#spring-leaf-2)" />
+                <ellipse cx="390" cy="445" rx="14" ry="7" transform="rotate(35 390 445)" fill="url(#spring-leaf-light)" />
+                <ellipse cx="415" cy="415" rx="15" ry="7" transform="rotate(-30 415 415)" fill="url(#spring-leaf-1)" />
 
                 {/* Leaves near Infrastructure Branch */}
                 <ellipse cx="540" cy="442" rx="16" ry="7.5" transform="rotate(25 540 442)" fill="url(#spring-leaf-1)" />
                 <ellipse cx="570" cy="448" rx="14" ry="7" transform="rotate(-25 570 448)" fill="url(#spring-leaf-2)" />
-                <ellipse cx="595" cy="425" rx="15" ry="7" transform="rotate(30 595 425)" fill="url(#spring-leaf-1)" />
+                <ellipse cx="595" cy="425" rx="15" ry="7" transform="rotate(30 595 425)" fill="url(#spring-leaf-light)" />
               </g>
 
               {/* 5. Radiating Fine Twig Connectors to Sub-Skills (Revealed in Image 2) */}

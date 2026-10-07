@@ -350,13 +350,13 @@ export default function EarlyWarning({ onBuilderHandoff }: EarlyWarningProps) {
                   <stop
                     offset="0%"
                     stopColor={
-                      warningStage === 0 ? "#86efac" : warningStage === 1 ? "#fde68a" : "#fca5a5"
+                      warningStage === 0 ? "#dcf0da" : warningStage === 1 ? "#fde68a" : "#fca5a5"
                     }
                   />
                   <stop
                     offset="100%"
                     stopColor={
-                      warningStage === 0 ? "#22c55e" : warningStage === 1 ? "#d97706" : "#b91c1c"
+                      warningStage === 0 ? "#98ce95" : warningStage === 1 ? "#d97706" : "#b91c1c"
                     }
                   />
                 </linearGradient>
@@ -365,13 +365,13 @@ export default function EarlyWarning({ onBuilderHandoff }: EarlyWarningProps) {
                   <stop
                     offset="0%"
                     stopColor={
-                      warningStage === 0 ? "#4ade80" : warningStage === 1 ? "#f59e0b" : "#ef4444"
+                      warningStage === 0 ? "#ceebcc" : warningStage === 1 ? "#f59e0b" : "#ef4444"
                     }
                   />
                   <stop
                     offset="100%"
                     stopColor={
-                      warningStage === 0 ? "#15803d" : warningStage === 1 ? "#b45309" : "#7f1d1d"
+                      warningStage === 0 ? "#87c383" : warningStage === 1 ? "#b45309" : "#7f1d1d"
                     }
                   />
                 </linearGradient>
